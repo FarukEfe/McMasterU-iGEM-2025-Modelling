@@ -47,13 +47,16 @@ Source: [Estimated photosynthetic Vmax and apparent K0.5(CO2)for cells in high, 
 
 ### Computation
 
-$CO_2 \space fixed (g/h)=(\frac{R_{fixation}\times C_{Chl}\times V\times Mm_{CO_2}}{10^6})$ where,
+$CO_2 \space fixed \space (g/h)=(\frac{R_{fixation}\times C_{Chl}\times V\times Mm_{CO_2}}{10^6})$ where,
 
 - $R_{fixation}$ is the determined chlorophyl-based fixation rate ($\mu$ mol CO2/mg Chl/h)
 - $C_{Chl}$ is the concentration of chlorophyl (mg Chl/L)
 - $V$ as volume in L
 - $Mm_{CO_2}$ as the molar mass of CO2 (44.009 g/mol)
 
-# TODO's
+### Carbon Tax and Benefits
 
-- Plug in numbers and get CO2 fixation per year under the assumption you run it 24 hrs a day.
+Source: [Canada's Carbon Pricing (a.k.a "carbon tax") Explained](https://davidsuzuki.org/what-you-can-do/carbon-pricing-explained/#:~:text=Effective%20carbon%20levies%20rise%20regularly,will%20reach%20%24170%20per%20tonne.) | [Industrial Carbon Pricing Explained](https://climateinstitute.ca/large-emitter-trading-systems-explained/)
+
+- Increasing by \$15 a year and it's estimated that it will reach \$170 per tonne.
+- Sits at \$80 per tonne in April 2024.
