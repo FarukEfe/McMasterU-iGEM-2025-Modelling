@@ -8,6 +8,11 @@ Sources: [Lessons in Bioreactor Scale-Up: Part 1 — Exploring Introductory Prin
 - Development scale around 10-50L
 - Production scale around 200 - 2000L
 
+Source: [Different large-scale systems currently used for the industrial production of microalgal biomass](https://www.researchgate.net/figure/Different-large-scale-systems-currently-used-for-the-industrial-production-of-microalgal_fig1_323999015)
+
+- 1 $m^3$ Flat panel photobioreactor (1,000 Liters)
+- 100 $m^3$ Tubular PBR (100,000 Liters)
+
 ### Cholorophyll Concentration in Systems
 
 #### Natural Systems
@@ -44,6 +49,14 @@ Source: [Estimated photosynthetic Vmax and apparent K0.5(CO2)for cells in high, 
 - Very Low CO2: $49 \space \mu mol \space CO_2/mg \space Chlorophyll/h$
 
 ### Chlorella Vulgaris Fixation Rates
+
+Source: [Carbon dioxide biofixation by Chlorella vulgaris at different CO2 concentrations and light intensities](https://analyticalsciencejournals.onlinelibrary.wiley.com/doi/full/10.1002/elsc.201200212?casa_token=_tSqMc2AObYAAAAA%3A0-B-pmRJmfUJcAcQXupRU-EuLujfed-7ec6VnDqWcDtKrvM688OvaaW0XSa7z8M3SESjS6dYTbyup9v3)
+
+Source: [Chlorella vulgaris oxygen production rate](https://bionumbers.hms.harvard.edu/bionumber.aspx?id=107311&ver=0&trm=chlorella+carbon+sequestration+rate&org=)
+
+- Each mol of chlorophyll is reported to procude 50-400 mol of O2 per h.
+- Chlorella vulgaris has both type and and b chlorophylls. We assume that all of the chlorophyll population is the lighter one (Chl a with $893.509 \space g/mol$) and take its molar mass to compute: $400 \space mol \space O^2/mol \space Chl/h \approx 0.4476732 \space mol \space O^2/g \space Chl/h = 447.6732 \space {\mu}mol \space O^2/mg \space Chl/h \approx 447 \space {\mu}mol \space O^2/mg \space Chl/h$
+- Due to the 1:1 molar ratio of O2 and CO2 in photosynthesis, we assume that all CO2 is being used up. That's why we're assuming to directly convert the O2 production rate into CO2 fixation rate. Thus, that gets us $\approx 447 \space {\mu}mol \space CO^2/mg \space Chl/h$
 
 ### Computation
 
