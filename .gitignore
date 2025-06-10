@@ -1,2 +1,13 @@
 venv
 __pycache__
+.pytest_cache
+# Bioinformatics: Kegg
+euk90_kegg105/
+euk90_kegg105.zip
+hmmsearch.exe.stackdump
+output/
+# Bio-validation: Memote
+report.html
+# Remove old stuff
+Algal_BP_Models
+fba_csorokiniana

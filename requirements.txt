@@ -1,6 +1,10 @@
 # DataVis
 matplotlib
 numpy
+scipy
 # FBA
 cobra
 memote
+networkx
+# CLI
+argparse
