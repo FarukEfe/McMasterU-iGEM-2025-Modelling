@@ -1,6 +1,10 @@
 from cobra import io
 import argparse, os
-from helpers.sort_similarity import sort_by_similarity
+from scripts.helpers.sort_similarity import sort_by_similarity
+
+import warnings, sys
+warnings.filterwarnings('ignore')
+sys.stderr = open(os.devnull, 'w') # Redirect stderr to null to suppress warnings
 
 if __name__ == "__main__":
     # Script Argument(s)
@@ -18,14 +22,17 @@ if __name__ == "__main__":
     search = input("Search for objective: ")
     res = sort_by_similarity([(rxn.id, rxn.name) for rxn in model.reactions], 'cycloartenol')[:30]
     print('Top 30 Most Similar Objectives: ')
-    for i in range(0,len(res), 3): 
-        print(f'{res[i]}\t{res[i+1]}\t{res[i+2]}')
+    for i in range(0,len(res)): 
+        print(f'{res[i][0]}: {res[i][1]}')
 
     # Pre-saved objectives that are relevant to our project
     objectives = ['Biomass_Chlamy_mixo','Biomass_Chlamy_auto','SS','CAS']
-    rxn = input('Choose objective. Some relevant ones: ' + '\t'.join(objectives))
+    rxn = input('\nChoose objective. Some relevant ones are ' + ' -- '.join(objectives) + '\nChoose: ')
     model.objective = rxn
     soln = model.optimize()
 
-    export_path = os.path.join(args.dest, 'fluxes', f'{rxn}.csv')
+    file_name: str = os.path.split(args.sbmlpath)[-1].split('.')[0]
+    dest_final: str = os.path.join(args.dest, file_name)
+    if not os.path.exists(dest_final): os.mkdir(dest_final)
+    export_path = os.path.join(dest_final, f'{rxn}.csv')
     soln.fluxes.to_csv(export_path)

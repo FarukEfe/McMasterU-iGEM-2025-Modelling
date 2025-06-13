@@ -6,5 +6,6 @@ scipy
 cobra
 memote
 networkx
+python-Levenshtein
 # CLI
 argparse
