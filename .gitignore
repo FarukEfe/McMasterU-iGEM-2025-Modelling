@@ -1,13 +1,19 @@
+# Virtual environments
 venv
+.conda
+# Python Cache
 __pycache__
 .pytest_cache
-# Bioinformatics: Kegg
+# Kegg
 euk90_kegg105/
 euk90_kegg105.zip
 hmmsearch.exe.stackdump
 output/
-# Bio-validation: Memote
+# Memote
 report.html
 # Remove old stuff
 Algal_BP_Models
 fba_csorokiniana
+# GitHub Large Files
+data/genome/*
+*.zip

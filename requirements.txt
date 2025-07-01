@@ -1,10 +1,10 @@
-# DataVis
+# General
 matplotlib
 numpy
 scipy
 # FBA
-cobra
-memote
+cobra # Process
+escher # Visualize
 networkx
 python-Levenshtein
 # CLI
