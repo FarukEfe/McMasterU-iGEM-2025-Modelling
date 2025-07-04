@@ -20,3 +20,5 @@ data/genome/target
 *.zip
 # Notebooks
 *.ipynb_checkpoints
+# Escher
+*.html
