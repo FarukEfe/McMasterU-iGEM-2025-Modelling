@@ -15,5 +15,6 @@ report.html
 Algal_BP_Models
 fba_csorokiniana
 # GitHub Large Files
-data/genome/*
+data/genome/reference
+data/genome/target
 *.zip

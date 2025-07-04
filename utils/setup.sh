@@ -12,7 +12,7 @@ fi
 
 # Set up venv
 python3 -m venv venv
-venv/Scripts/activate
+venv/bin/activate
 # Check if the user is using pip or pip3, and write the correct script
 if command -v pip3 &> /dev/null; then
     PIP_CMD="pip3"

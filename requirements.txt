@@ -2,6 +2,7 @@
 matplotlib
 numpy
 scipy
+fuzzywuzzy
 # FBA
 cobra # Process
 escher # Visualize

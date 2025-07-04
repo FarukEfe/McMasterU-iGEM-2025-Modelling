@@ -2,6 +2,7 @@ from cobra import io
 import escher
 import argparse, os
 from scripts.helpers.sort_similarity import sort_by_similarity
+from cobra.util.solver import linear_reaction_coefficients
 
 import warnings, sys
 warnings.filterwarnings('ignore')
@@ -26,6 +27,9 @@ if __name__ == "__main__":
     for i in range(0,len(res)): 
         print(f'{res[i][0]}: {res[i][1]}')
 
+    # Saw this here: https://groups.google.com/g/cobra-pie/c/IrXS8Xa06Js/m/_I3EmBZBAgAJ?pli=1
+    # Will look into this later
+    linear_reaction_coefficients(model)
     # Pre-saved objectives that are relevant to our project
     objectives = ['Biomass_Chlamy_mixo','Biomass_Chlamy_auto','SS','CAS']
     rxn = input('\nChoose objective. Some relevant ones are ' + ' -- '.join(objectives) + '\nChoose: ')
@@ -40,17 +44,13 @@ if __name__ == "__main__":
     export_path = os.path.join(dest_final, f'{rxn}.csv')
     soln.fluxes.to_csv(export_path)
 
-    # print("Saving vis...")
-    # # Network Builder
-    # builder = escher.Builder(
-    #     reaction_data=soln.fluxes,
-    #     model=model,
-    #     map_name='c_reinhardtii.core_metabolism'  # Replace with a valid map for your organism
-    # )
-    # builder.save_html(os.path.join(dest_final, 'example.html'))
-
     print("Saving vis...")
-    # Save Model to JSON
-    json_path = os.path.join(dest_final, f'{file_name}.json')
-    print(export_path)
-    io.save_json_model(model, json_path)
+    # Visualize Model via Escher FBA
+    b = escher.Builder(model=model)
+    b.display_in_browser()
+
+    # print("Saving vis...")
+    # # Save Model to JSON
+    # json_path = os.path.join(dest_final, f'{file_name}.json')
+    # print(export_path)
+    # io.save_json_model(model, json_path)
