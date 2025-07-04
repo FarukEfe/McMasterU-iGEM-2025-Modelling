@@ -18,3 +18,5 @@ fba_csorokiniana
 data/genome/reference
 data/genome/target
 *.zip
+# Notebooks
+*.ipynb_checkpoints

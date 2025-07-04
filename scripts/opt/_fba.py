@@ -21,6 +21,10 @@ if __name__ == "__main__":
     # Model Import
     model, error = io.validate_sbml_model(args.sbmlpath)
 
+    if not model:
+        print(f'Error loading model: {error}')
+        sys.exit(1)
+
     search = input("Search for objective: ")
     res = sort_by_similarity([(rxn.id, rxn.name) for rxn in model.reactions], 'cycloartenol')[:30]
     print('Top 30 Most Similar Objectives: ')
@@ -43,14 +47,3 @@ if __name__ == "__main__":
     if not os.path.exists(dest_final): os.mkdir(dest_final)
     export_path = os.path.join(dest_final, f'{rxn}.csv')
     soln.fluxes.to_csv(export_path)
-
-    print("Saving vis...")
-    # Visualize Model via Escher FBA
-    b = escher.Builder(model=model)
-    b.display_in_browser()
-
-    # print("Saving vis...")
-    # # Save Model to JSON
-    # json_path = os.path.join(dest_final, f'{file_name}.json')
-    # print(export_path)
-    # io.save_json_model(model, json_path)
