@@ -26,7 +26,7 @@ if __name__ == "__main__":
         sys.exit(1)
 
     search = input("Search for objective: ")
-    res = sort_by_similarity([(rxn.id, rxn.name) for rxn in model.reactions], 'cycloartenol')[:30]
+    res = sort_by_similarity([(rxn.id, rxn.name) for rxn in model.reactions], search)[:30]
     print('Top 30 Most Similar Objectives: ')
     for i in range(0,len(res)): 
         print(f'{res[i][0]}: {res[i][1]}')

@@ -6,7 +6,9 @@ fuzzywuzzy
 # FBA
 cobra # Process
 escher # Visualize
+# Met. Model
 networkx
+biopython
 python-Levenshtein
 # CLI
 argparse
