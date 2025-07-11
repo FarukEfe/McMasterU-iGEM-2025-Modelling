@@ -1,7 +1,7 @@
 from cobra import io
 import escher
 import argparse, os
-from scripts.helpers.sort_similarity import sort_by_similarity
+from scripts.helpers.tools import sort_by_similarity
 from cobra.util.solver import linear_reaction_coefficients
 
 import warnings, sys
