@@ -19,9 +19,3 @@ temp <- tempfile(fileext = ".png")
 path <- "./results/other/sterol_syn_path.png"
 writePNG(img, target = temp)
 file.copy(temp, path)
-
-# Get rxns and save in .xml format
-
-kgml <- keggGet(pathway_id, "kgml")
-export_path <- paste("./results/other/", pathway_id, ".kgml", sep="")
-writeLines(kgml, export_path)
