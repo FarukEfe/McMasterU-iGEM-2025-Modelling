@@ -19,6 +19,8 @@ external
 data/genome/reference
 data/genome/target
 *.zip
+# pyvis
+lib
 # Notebooks
 *.ipynb_checkpoints
 # Escher

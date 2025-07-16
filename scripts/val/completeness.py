@@ -2,6 +2,7 @@ from cobra import io
 import os, argparse
 from enum import Enum
 from cobra.core import Model, Reaction, Metabolite
+from pyvis.network import Network
 
 from scripts.helpers.tools import sort_by_similarity
 
@@ -15,7 +16,6 @@ class Node:
         self.type: NType = is_compound
         self.data = data
 
-
 class DiGraph:
 
     # Initializer and readers
@@ -23,6 +23,7 @@ class DiGraph:
     def __init__(self, rxns: list[Reaction]):
 
         nodes_map: dict[str:Node] = {}
+        names: dict[str:str] = {}
         edges: dict[str:str] = {}
         weight: dict[tuple[str,str]:int] = {}
 
@@ -31,6 +32,7 @@ class DiGraph:
             # Create reaction node
             rxn_node = Node(is_compound=False, data=rxn)
             nodes_map[rxn.id] = rxn_node
+            names[rxn.id] = rxn.name
             # Add metabolites to graph
             for item in rxn.metabolites.items():
                 met, coef = item
@@ -38,6 +40,7 @@ class DiGraph:
                 if not (met.id in nodes_map.keys()):
                     c_node = Node(is_compound=True, data=met)
                     nodes_map[met.id] = c_node
+                    names[met.id] = met.name
                 
                 # Connect metabolite and reaction
                 src, dest = rxn.id, met.id
@@ -53,7 +56,7 @@ class DiGraph:
                 metcount += 1
             rxncount += 1
             
-        self.nodes, self.edges, self.weight, self.rxn_count, self.met_count = nodes_map, edges, weight, rxncount, metcount
+        self.nodes, self.names, self.edges, self.weight, self.rxn_count, self.met_count = nodes_map, names, edges, weight, rxncount, metcount
     
     def get_node_count(self): return (self.rxn_count + self.met_count)
         
@@ -62,6 +65,8 @@ class DiGraph:
     def get_met_count(self): return self.met_count
 
     # Debug
+
+    def get_names(self): return self.names
 
     def get_edges(self): return self.edges
 
@@ -72,6 +77,7 @@ class DiGraph:
     # Pathfinding
 
     def _get_dest(self, nid: str):
+        if nid not in self.edges.keys(): return []
         return self.edges[nid]
     
     def find_sp(self, src: str):
@@ -88,11 +94,32 @@ class DiGraph:
             d = self._get_dest(n)
             for m in d:
                 if m not in visits:
-                    visits.append(m)
+                    queue.append(m)
         
         return visits
-                
+    
+    # Convert pyvis
 
+    def convert_pyvis(self, filename: str, src: str, finds: list[str], include = None):
+        network = Network(directed=True)
+        # Default behaviour:
+        if include == None:
+            include = list(self.nodes.keys()) 
+        # Add nodes to pyvis graph with name label and cobra id
+        for item in self.names.items():
+            id, name = item
+            if id not in include: continue
+            network.add_node(id, label=name, color=("#ee5533" if id == src else "#33ee88" if id in finds else "#3388ee"))
+        # Build edges in pyvis graph
+        for edge in self.edges.items():
+            n, ms = edge
+            if n not in include: continue
+            for m in ms:
+                if m not in include: continue
+                try: network.add_edge(n, m)
+                except: pass
+        # Save network
+        network.save_graph(f"{filename}.html")
 
 if __name__ == "__main__":
 
@@ -111,9 +138,12 @@ if __name__ == "__main__":
 
         target_subsystem = ["Pyruvate metabolism", "Transport, chloroplast", "Biosynthesis of steroids"]
         rxns = [rxn for rxn in model.reactions if rxn.subsystem in target_subsystem]
+        find_list = ["SS", "CAS", "sql_c", "psqldp_c", "chsterol_c", "mergtrol_c"]
+        src_met = "FRDPth"
         
         graph = DiGraph(rxns)
-        res = graph.find_sp("FRDPth")
+        res = graph.find_sp(src_met)
+        # res = []
 
         met_list = [(met.id, met.name) for met in model.metabolites]
         rxn_list = [(rxn.id, rxn.name) for rxn in model.reactions]
@@ -121,10 +151,10 @@ if __name__ == "__main__":
         rxn_ids = list(map(lambda x: x[0], rxn_list))
         while True: 
 
-            inp = input("Search for: 1 - Met, 2 - Rxn, 0 - Quit\n")
+            inp = input("Search for: 1 - Met, 2 - Rxn, 3 - pyvis, 0 - Quit\n")
 
-            while inp not in ["0", "1", "2"]:
-                inp = input("Search for: 1 - Met, 2 - Rxn, 0 - Quit\n")
+            while inp not in ["0", "1", "2", "3"]:
+                inp = input("Search for: 1 - Met, 2 - Rxn, 3 - pyvis, 0 - Quit\n")
             
             if inp == "0":
                 break
@@ -140,7 +170,7 @@ if __name__ == "__main__":
                         break
                 print("Metabolite found in the graph" if choice in res else "Not found.", end="\n\n")
             elif inp == "2":
-                rxn_name = input("Met name or id: ")
+                rxn_name = input("Rxn name or id: ")
                 search = sort_by_similarity(rxn_list, rxn_name)[:10]
                 for s in search:
                     print(f"{s[0]}: {s[1]}")
@@ -150,5 +180,10 @@ if __name__ == "__main__":
                     if choice in rxn_ids:
                         break
                 print("Rxn found in the graph" if choice in res else "Not found.", end="\n\n")
-                    
+            elif inp == "3":
+                name = input("Give your file a name: ")
+                graph.convert_pyvis(filename=name, src=src_met, finds=find_list, include=res)
+                exit(0)
+            else:
+                print("Input not an option, choose one of the provided.\n")
         
