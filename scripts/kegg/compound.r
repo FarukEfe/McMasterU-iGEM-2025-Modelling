@@ -8,6 +8,8 @@ if (!require("KEGGREST")) {
     BiocManager::install("KEGGREST")
 }
 
+# ANYTHING ABOVE THIS LINE IS A ONE-TIME INSTALLATION, NO NEED TO RUN AGAIN
+
 library('KEGGREST')
 library(png)
 
@@ -29,10 +31,10 @@ for (i in seq(1, length(cids), by = batch_size)) {
 }
 # Extract the 
 all_names <- lapply(all_results, function(item) { item$NAME })
-all_names_short <- lapply(all_names, function(item) { item[[1]] })
-all_names_long <- lapply(all_names, function(item) { if (length(item) > 1) { item[[2]] } else {NA} })
+all_names_short <- lapply(all_names, function(item) { gsub(";", "", item[[1]]) })
+all_names_long <- lapply(all_names, function(item) { if (length(item) > 1) { gsub(";", "", item[[2]]) } else {NA} })
 # Extract the formula for each compound
-all_formulas <- lapply(all_results, function(item) { item$NAME })
+all_formulas <- lapply(all_results, function(item) { item$FORMULA })
 # Unlist
 cids_vec <- unlist(cids)
 names_short_vec <- unlist(all_names_short)
@@ -45,4 +47,4 @@ df <- data.frame(
     NAME_LONG = names_long_vec,
     FORMULA = formulas_vec
 )
-write.csv(df, file="./data/kegg/cre00100_compounds.csv")
+write.csv(df, file="./data/kegg/cre00100_compounds.csv", quote=FALSE)
