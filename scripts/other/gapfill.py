@@ -39,40 +39,77 @@ if __name__ == "__main__":
     # iterate through dataframe to add metabolites that are missing
     list_mets: list[tuple[str,str,Metabolite]] = [(met.id, met.name, met) for met in model.metabolites]
     for _, cpd in kegg_compound_df.iterrows():
-        print(cpd['NAME_SHORT'], f"({cpd['FORMULA']})", f". Most similar:\n\t{"\n\t".join(list(map(lambda x: f"{x[1]} ({x[2].formula}) ({x[2].compartment})", sort_by_similarity(list_mets, cpd['NAME_SHORT'])))[:5])}", end='\n')
-        while True:
-            ans = input("1 - Add Met | 0 - Ignore\n")
+        searches = sort_by_similarity(list_mets, cpd['NAME_SHORT'])
+        print(cpd['NAME_SHORT'], f"({cpd['FORMULA']})", f". Most similar:\n\t{"\n\t".join(list(map(lambda x: f"{x[1]} ({x[2].formula}) ({x[2].compartment})", searches))[:5])}", end='\n')
 
-            if ans == "1":
-                newMet = Metabolite(
-                    id=cpd['KEGG_ID'],
-                    name=cpd['NAME_SHORT'],
-                    formula=cpd['FORMULA'],
-                    compartment='c',
-                )
-                new_model.add_metabolites([newMet])
-                print(f"Added {newMet.id} to the new model.")
-                break
-            elif ans == "0":
-                break
-            else:
-                continue
+        # Filter searches based on if they're in compartment 'c'
+        searches = [s[2].formula for s in searches if s[2].compartment == 'c']
+
+        if cpd['FORMULA'] in searches:
+            print(f"Found matching compound: {cpd['NAME_SHORT']} ({cpd['FORMULA']})")
+            continue
+        else:
+            print(f"No matching compound found for: {cpd['NAME_SHORT']} ({cpd['FORMULA']})")
+            newMet = Metabolite(
+                id=cpd['KEGG_ID'],
+                name=cpd['NAME_SHORT'],
+                formula=cpd['FORMULA'],
+                compartment='c',
+            )
+            new_model.add_metabolites([newMet])
+            print(f"Added {newMet.id} to the new model.")
+            continue
+        
+        # while True:
+        #     ans = input("1 - Add Met | 0 - Ignore\n")
+
+        #     if ans == "1":
+        #         newMet = Metabolite(
+        #             id=cpd['KEGG_ID'],
+        #             name=cpd['NAME_SHORT'],
+        #             formula=cpd['FORMULA'],
+        #             compartment='c',
+        #         )
+        #         new_model.add_metabolites([newMet])
+        #         print(f"Added {newMet.id} to the new model.")
+        #         break
+        #     elif ans == "0":
+        #         break
+        #     else:
+        #         continue
 
     # On each compartment, make a dictionary binding formulas to metabolite ids for reaction lookup
     lookup_dict = {}
     for _, cpd in kegg_compound_df.iterrows():
         lookup_dict[cpd['KEGG_ID']] = cpd['FORMULA']
-    
+
+    # Create a rxn id for each reaction based on the reactants and products, same as line 101
+    # rxn_lookup_dict = {}
+    # for rxn in model.reactions:
+    #     # Get the formulas for each metabolite in the reaction
+    #     reactants = get_rxn_metabolites(rxn, 'reactants')
+    #     products = get_rxn_metabolites(rxn, 'products')
+    #     # Create a unique id based on the sorted formulas
+    #     fid = '+'.join(sorted(reactants)) + '+' + '+'.join(sorted(products))
+    #     # Add to lookup dictionary
+    #     rxn_lookup_dict[rxn.id] = fid
+
+    # Create a dictionary for compartment lookup    
     compartment_dict = {}
     for met in new_model.metabolites:
         if met.compartment not in compartment_dict:
             compartment_dict[met.compartment] = {}
-        compartment_dict[met.compartment][met.formula] = met.id
+        compartment_dict[met.compartment][met.formula] = met
 
     # iterate through dataframe to add rxns in the same manner
     list_rxns: list[tuple[str,str,Reaction]] = [(rxn.id,rxn.name,rxn) for rxn in model.reactions]
-    for _, rxn in kegg_rxn_df.iterrows():
+    for id, rxn in kegg_rxn_df.iterrows():
         print(rxn['NAME'], f". Most similar:\n\t{"\n\t".join(list(map(lambda x: f"{x[1]} ({list(map(lambda y: y[0].name, x[2].metabolites.items()))}) ({str(x[2].compartments)})", sort_by_similarity(list_rxns, rxn['NAME'])))[:5])}", end='\n')
+
+        # # Create rxn id by sorting the reactants' and products' formulas (then concatenate)
+        # fid = '+'.join(sorted(rxn['REACTANTS'].split('+'))) + '+' + '+'.join(sorted(rxn['PRODUCTS'].split('+')))
+        # # add the reaction to 'c' compartment whenever there's a missing id in already existing reactions
+        # if fid in rxn_lookup_dict.values(): continue
 
         while True:
             ans = input("1 - Add Rxn | 0 - Ignore\n")
@@ -88,21 +125,33 @@ if __name__ == "__main__":
                 p_ids = {compartment_dict['c'][formula]: 1 for formula in p_formulas if formula in compartment_dict['c']}
                 # Concatenate the dictionaries
                 mets_dict = {**r_ids, **p_ids}
+                # print(mets_dict)
                 # Add the metabolites to reaction
                 newRxn = Reaction(
-                    id=rxn['KEGG_ID'],
+                    id=id,
                     name=rxn['NAME'],
-                    subsystem=rxn['PATHWAYS'],
+                    subsystem=rxn['PATHWAYS']
                 )
+                # Important info for reaction
+                newRxn.reversibility = True # Add rxns in db are reversible it seems
+                newRxn.lower_bound = -1000
+                newRxn.upper_bound = 1000
+                # Add the metabolites to the reaction
                 newRxn.add_metabolites(mets_dict)
                 # Add the reaction to the model
                 new_model.add_reactions([newRxn])
-                print(f"Added {newRxn.id} to the new model.")
+                print(f"Added {newRxn.id} to the new model.\n")
                 break
             elif ans == "0":
                 break
             else:
                 continue
+    
+    print(f"New model has {len(new_model.metabolites)} metabolites and {len(new_model.reactions)} reactions.")
+    print(f"Old model has {len(model.metabolites)} metabolites and {len(model.reactions)} reactions.")
+
+    # Export new_model to sbml
+    io.write_sbml_model(new_model, "./data/altered/kegg_gapfill_model.xml")
 
 # All reactions seem to have no coefficient, confirm
 # Double check that all metabolites and reactions are added to the correct compartments

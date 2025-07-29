@@ -50,7 +50,20 @@ for (i in seq(1, length(cids), by = batch_size)) {
                     next
                 }
 
+                # Get KEGG rxn query
                 reaction_data <- keggGet(rxn_id)[[1]]
+
+                # Ignore if rxn is not in steroid biosynthesis pathway
+                if (!"Steroid biosynthesis" %in% reaction_data$PATHWAY) {
+                    cat("Reaction", rxn_id, "is not in the Steroid biosynthesis pathway. Skipping...\n")
+                    next
+                }
+                # If reaction doesn't have a name, skip it
+                if (is.null(reaction_data$NAME) || reaction_data$NAME == "") {
+                    cat("No name found for reaction:", rxn_id, "\n")
+                    next
+                }
+
                 eqn <- gsub(" ", "", reaction_data$EQUATION)  # Remove spaces from the equation
                 # Split eqn into reactants and products
                 reactants <- strsplit(eqn, "<=>")[[1]][1]
@@ -91,7 +104,7 @@ df <- data.frame(
 )
 write.csv(df, file="./data/kegg/cre00100_reactions.csv", quote=TRUE, row.names = FALSE)
 
-# Get full list rxns
+# Get full list mets
 batch_size <- 10
 all_results <- list()
 for (i in seq(1, length(full_cids), by = batch_size)) {
