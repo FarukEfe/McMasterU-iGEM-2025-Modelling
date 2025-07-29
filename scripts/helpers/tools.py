@@ -26,5 +26,5 @@ def get_rxn_metabolites(reaction_id: str, model: Model) -> tuple[list[Metabolite
     return mets, coefs
 
 
-def sort_by_similarity(strings: list[tuple[str,str]], ref: str):
+def sort_by_similarity(strings: list[tuple[str,str,object]], ref: str):
     return sorted(strings, key=lambda s: max(fuzz.ratio(ref, s[0]), fuzz.ratio(ref, s[1])), reverse=True)

@@ -3,7 +3,7 @@ import os, sys
 
 path = './data/raw/iBD1106.xml'
 path = './data/raw/iCre1355/iCre1355_auto.xml'
-# path = './data/raw/iRC1080.xml'
+path = './data/raw/iRC1080.xml'
 
 model, error = io.validate_sbml_model(path, validate=True)
 
@@ -12,7 +12,9 @@ model, error = io.validate_sbml_model(path, validate=True)
 
 # print(help(model))
 
-m = Metabolite()
+for i in model.boundary:
+    print(i.id, "---",i.name)
+exit(1)
 
 if model:
     rxn: Reaction = model.reactions.get_by_id("SS")

@@ -1,0 +1,145 @@
+venv\Lib\site-packages\memote\suite\tests\test_annotation.py FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF..              [ 39%]
+venv\Lib\site-packages\memote\suite\tests\test_basic.py ....FFF........F.....FF                                                             [ 53%]
+venv\Lib\site-packages\memote\suite\tests\test_biomass.py .FFF.FF.FFFFFFFF...FFFFFFFFF                                                      [ 70%]
+venv\Lib\site-packages\memote\suite\tests\test_consistency.py FFFF.......ssssss.sFFFFFFFFF.                                                 [ 88%]
+venv\Lib\site-packages\memote\suite\tests\test_essentiality.py s                                                                            [ 89%] 
+venv\Lib\site-packages\memote\suite\tests\test_growth.py s                                                                                  [ 89%] 
+venv\Lib\site-packages\memote\suite\tests\test_matrix.py ....                                                                               [ 92%]
+venv\Lib\site-packages\memote\suite\tests\test_sbml.py FF                                                                                   [ 93%] 
+venv\Lib\site-packages\memote\suite\tests\test_sbo.py .........sF                                                                           [100%]
+
+================================================================ warnings summary ================================================================ 
+venv\Lib\site-packages\_pytest\config\__init__.py:1290
+  C:\Users\Owner\Documents\GitHub\McMasterU-iGEM-2025-Modelling\venv\Lib\site-packages\_pytest\config\__init__.py:1290: PytestAssertRewriteWarning: Module already imported so cannot be rewritten; typeguard
+    self._mark_plugins_for_rewrite(hook, disable_autoload)
+
+venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_metabolite_id_namespace_consistency
+venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_reaction_id_namespace_consistency
+  C:\Users\Owner\Documents\GitHub\McMasterU-iGEM-2025-Modelling\venv\Lib\site-packages\memote\support\annotation.py:279: FutureWarning: A value is trying to be set on a copy of a DataFrame or Series through chained assignment using an inplace method.
+  The behavior will change in pandas 3.0. This inplace method will never work because the intermediate object on which we are setting values always behaves as a copy.
+
+  For example, when doing 'df[col].method(value, inplace=True)', try using 'df.method({col: value}, inplace=True)' or df[col] = df[col].method(value) instead, to perform the operation inplace on the original object.
+
+
+    df["duplicate"].fillna(False, inplace=True)
+
+venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_metabolite_id_namespace_consistency
+  C:\Users\Owner\Documents\GitHub\McMasterU-iGEM-2025-Modelling\venv\Lib\site-packages\memote\support\annotation.py:279: FutureWarning: Downcasting object dtype arrays on .fillna, .ffill, .bfill is deprecated and will change in a future version. Call result.infer_objects(copy=False) instead. To opt-in to the future behavior, set `pd.set_option('future.no_silent_downcasting', True)`
+    df["duplicate"].fillna(False, inplace=True)
+
+venv/Lib/site-packages/memote/suite/tests/test_biomass.py::test_biomass_consistency[Biomass_Chlamy_auto]
+venv/Lib/site-packages/memote/suite/tests/test_biomass.py::test_biomass_consistency[Biomass_Chlamy_hetero]
+venv/Lib/site-packages/memote/suite/tests/test_biomass.py::test_biomass_consistency[Biomass_Chlamy_mixo]
+  C:\Users\Owner\Documents\GitHub\McMasterU-iGEM-2025-Modelling\venv\Lib\site-packages\cobra\core\metabolite.py:191: UserWarning: The element 'R' does not appear in the periodic table
+    warn(f"The element {e} does not appear in the periodic table")
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+============================================================ short test summary info =============================================================
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_metabolite_annotation_presence - AssertionError: A total of 1845 metabolites (100.00%) lack any form of annotation:
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_reaction_annotation_presence - AssertionError: A total of 2394 reactions (100.00%) lack any form of annotation:
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_gene_product_annotation_presence - AssertionError: A total of 1963 genes (100.00%) lack any form of         annotation:
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_metabolite_annotation_overview[pubchem.compound] - AssertionError: The following 1845 metabolites (100.00%) lack annotation for
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_metabolite_annotation_overview[kegg.compound] - AssertionError: The following 1845 metabolites (100.00%) lack annotation for
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_metabolite_annotation_overview[seed.compound] - AssertionError: The following 1845 metabolites (100.00%) lack annotation for
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_metabolite_annotation_overview[inchikey] - AssertionError: The following 1845 metabolites (100.00%) lack annotation for inchikey:
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_metabolite_annotation_overview[inchi] - AssertionError: The following 1845 metabolites (100.00%) lack annotation for inchi:
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_metabolite_annotation_overview[chebi] - AssertionError: The following 1845 metabolites (100.00%) lack annotation for chebi:
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_metabolite_annotation_overview[hmdb] - AssertionError: The following 1845 metabolites (100.00%) lack annotation for hmdb:
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_metabolite_annotation_overview[reactome] - AssertionError: The following 1845 metabolites (100.00%) lack annotation for reactome:
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_metabolite_annotation_overview[metanetx.chemical] - AssertionError: The following 1845 metabolites (100.00%) lack annotation for
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_metabolite_annotation_overview[bigg.metabolite] - AssertionError: The following 1845 metabolites (100.00%) lack annotation for
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_metabolite_annotation_overview[biocyc] - AssertionError: The following 1845 metabolites (100.00%) lack annotation for biocyc:
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_reaction_annotation_overview[rhea] - AssertionError: The following 2394 reactions (100.00%) lack annotation for rhea:
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_reaction_annotation_overview[kegg.reaction] - AssertionError: The following 2394 reactions (100.00%) lack annotation for
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_reaction_annotation_overview[seed.reaction] - AssertionError: The following 2394 reactions (100.00%) lack annotation for
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_reaction_annotation_overview[metanetx.reaction] - AssertionError: The following 2394 reactions (100.00%) lack annotation for
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_reaction_annotation_overview[bigg.reaction] - AssertionError: The following 2394 reactions (100.00%) lack annotation for
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_reaction_annotation_overview[reactome] - AssertionError: The following 2394 reactions (100.00%) lack annotation for reactome:
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_reaction_annotation_overview[ec-code] - AssertionError: The following 2394 reactions (100.00%) lack annotation for ec-code:
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_reaction_annotation_overview[brenda] - AssertionError: The following 2394 reactions (100.00%) lack annotation for brenda:
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_reaction_annotation_overview[biocyc] - AssertionError: The following 2394 reactions (100.00%) lack annotation for biocyc:
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_gene_product_annotation_overview[refseq] - AssertionError: The following 1963 genes (100.00%) lack annotation for refseq:
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_gene_product_annotation_overview[uniprot] - AssertionError: The following 1963 genes (100.00%) lack annotation for uniprot:
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_gene_product_annotation_overview[ecogene] - AssertionError: The following 1963 genes (100.00%) lack annotation for ecogene:
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_gene_product_annotation_overview[kegg.genes] - AssertionError: The following 1963 genes (100.00%) lack annotation for kegg.genes:
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_gene_product_annotation_overview[ncbigi] - AssertionError: The following 1963 genes (100.00%) lack annotation for ncbigi:
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_gene_product_annotation_overview[ncbigene] - AssertionError: The following 1963 genes (100.00%) lack annotation for ncbigene:
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_gene_product_annotation_overview[ncbiprotein] - AssertionError: The following 1963 genes (100.00%) lack annotation for ncbiprotein:
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_gene_product_annotation_overview[ccds] - AssertionError: The following 1963 genes (100.00%) lack annotation for ccds:
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_gene_product_annotation_overview[hprd] - AssertionError: The following 1963 genes (100.00%) lack annotation for hprd:
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_gene_product_annotation_overview[asap] - AssertionError: The following 1963 genes (100.00%) lack annotation for asap:
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_metabolite_annotation_wrong_ids[pubchem.compound] - AssertionError: There are no metabolite annotations for the pubchem.compound database.
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_metabolite_annotation_wrong_ids[kegg.compound] - AssertionError: There are no metabolite annotations for the kegg.compound database.
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_metabolite_annotation_wrong_ids[seed.compound] - AssertionError: There are no metabolite annotations for the seed.compound database.
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_metabolite_annotation_wrong_ids[inchikey] - AssertionError: There are no metabolite annotations for the inchikey database.
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_metabolite_annotation_wrong_ids[inchi] - AssertionError: There are no metabolite annotations for the inchi database.
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_metabolite_annotation_wrong_ids[chebi] - AssertionError: There are no metabolite annotations for the chebi database.
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_metabolite_annotation_wrong_ids[hmdb] - AssertionError: There are no metabolite annotations for the hmdb database.
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_metabolite_annotation_wrong_ids[reactome] - AssertionError: There are no metabolite annotations for the reactome database.
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_metabolite_annotation_wrong_ids[metanetx.chemical] - AssertionError: There are no metabolite annotations for the metanetx.chemical
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_metabolite_annotation_wrong_ids[bigg.metabolite] - AssertionError: There are no metabolite annotations for the bigg.metabolite database.
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_metabolite_annotation_wrong_ids[biocyc] - AssertionError: There are no metabolite annotations for the biocyc database.
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_reaction_annotation_wrong_ids[rhea] - AssertionError: There are no reaction annotations for the rhea database.
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_reaction_annotation_wrong_ids[kegg.reaction] - AssertionError: There are no reaction annotations for the kegg.reaction database.
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_reaction_annotation_wrong_ids[seed.reaction] - AssertionError: There are no reaction annotations for the seed.reaction database.
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_reaction_annotation_wrong_ids[metanetx.reaction] - AssertionError: There are no reaction annotations for the metanetx.reaction database.
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_reaction_annotation_wrong_ids[bigg.reaction] - AssertionError: There are no reaction annotations for the bigg.reaction database.
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_reaction_annotation_wrong_ids[reactome] - AssertionError: There are no reaction annotations for the reactome database.
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_reaction_annotation_wrong_ids[ec-code] - AssertionError: There are no reaction annotations for the ec-code database.
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_reaction_annotation_wrong_ids[brenda] - AssertionError: There are no reaction annotations for the brenda database.
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_reaction_annotation_wrong_ids[biocyc] - AssertionError: There are no reaction annotations for the biocyc database.
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_gene_product_annotation_wrong_ids[refseq] - AssertionError: There are no gene annotations for the refseq database.
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_gene_product_annotation_wrong_ids[uniprot] - AssertionError: There are no gene annotations for the uniprot database.
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_gene_product_annotation_wrong_ids[ecogene] - AssertionError: There are no gene annotations for the ecogene database.
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_gene_product_annotation_wrong_ids[kegg.genes] - AssertionError: There are no gene annotations for the kegg.genes database.
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_gene_product_annotation_wrong_ids[ncbigi] - AssertionError: There are no gene annotations for the ncbigi database.
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_gene_product_annotation_wrong_ids[ncbigene] - AssertionError: There are no gene annotations for the ncbigene database.
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_gene_product_annotation_wrong_ids[ncbiprotein] - AssertionError: There are no gene annotations for the ncbiprotein database.
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_gene_product_annotation_wrong_ids[ccds] - AssertionError: There are no gene annotations for the ccds database.
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_gene_product_annotation_wrong_ids[hprd] - AssertionError: There are no gene annotations for the hprd database.
+FAILED venv/Lib/site-packages/memote/suite/tests/test_annotation.py::test_gene_product_annotation_wrong_ids[asap] - AssertionError: There are no gene annotations for the asap database.
+FAILED venv/Lib/site-packages/memote/suite/tests/test_basic.py::test_metabolites_formula_presence - AssertionError: There are a total of 9         
+metabolites (0.49%) without a formula:
+FAILED venv/Lib/site-packages/memote/suite/tests/test_basic.py::test_metabolites_charge_presence - AssertionError: There are a total of 1845         metabolites (100.00%) without a
+FAILED venv/Lib/site-packages/memote/suite/tests/test_basic.py::test_gene_protein_reaction_rule_presence - AssertionError: There are a total of 379 reactions (15.83%) without GPR:
+FAILED venv/Lib/site-packages/memote/suite/tests/test_basic.py::test_transport_reaction_gpr_presence - AssertionError: There are a total of 240 transport reactions (57.14% of all
+FAILED venv/Lib/site-packages/memote/suite/tests/test_basic.py::test_find_reactions_with_identical_genes - AssertionError: Based only on equal genes there are 367 different groups of
+FAILED venv/Lib/site-packages/memote/suite/tests/test_basic.py::test_find_medium_metabolites - TypeError: unsupported operand type(s) for /: 'int' and 'list'
+FAILED venv/Lib/site-packages/memote/suite/tests/test_biomass.py::test_biomass_consistency[Biomass_Chlamy_auto] - TypeError: '<' not supported between instances of 'float' and 'NoneType'
+FAILED venv/Lib/site-packages/memote/suite/tests/test_biomass.py::test_biomass_consistency[Biomass_Chlamy_hetero] - TypeError: '<' not supported between instances of 'float' and 'NoneType'
+FAILED venv/Lib/site-packages/memote/suite/tests/test_biomass.py::test_biomass_consistency[Biomass_Chlamy_mixo] - TypeError: '<' not supported between instances of 'float' and 'NoneType'
+FAILED venv/Lib/site-packages/memote/suite/tests/test_biomass.py::test_biomass_default_production[Biomass_Chlamy_hetero] - AssertionError: Using the biomass reaction Biomass_Chlamy_hetero this is the growth
+FAILED venv/Lib/site-packages/memote/suite/tests/test_biomass.py::test_biomass_default_production[Biomass_Chlamy_mixo] - AssertionError: Using the biomass reaction Biomass_Chlamy_mixo this is the growth rate
+FAILED venv/Lib/site-packages/memote/suite/tests/test_biomass.py::test_biomass_open_production[Biomass_Chlamy_hetero] - AssertionError: Using the biomass reaction Biomass_Chlamy_hetero this is the growth
+FAILED venv/Lib/site-packages/memote/suite/tests/test_biomass.py::test_biomass_open_production[Biomass_Chlamy_mixo] - AssertionError: Using the biomass reaction Biomass_Chlamy_mixo this is the growth rate
+FAILED venv/Lib/site-packages/memote/suite/tests/test_biomass.py::test_biomass_precursors_default_production[Biomass_Chlamy_auto] - AssertionError: Using the biomass reaction Biomass_Chlamy_auto and when the model is
+FAILED venv/Lib/site-packages/memote/suite/tests/test_biomass.py::test_biomass_precursors_default_production[Biomass_Chlamy_hetero] - AssertionError: Using the biomass reaction Biomass_Chlamy_hetero and when the model is
+FAILED venv/Lib/site-packages/memote/suite/tests/test_biomass.py::test_biomass_precursors_default_production[Biomass_Chlamy_mixo] - AssertionError: Using the biomass reaction Biomass_Chlamy_mixo and when the model is
+FAILED venv/Lib/site-packages/memote/suite/tests/test_biomass.py::test_biomass_precursors_open_production[Biomass_Chlamy_auto] - AssertionError: Using the biomass reaction Biomass_Chlamy_auto and when the model is
+FAILED venv/Lib/site-packages/memote/suite/tests/test_biomass.py::test_biomass_precursors_open_production[Biomass_Chlamy_hetero] - AssertionError: Using the biomass reaction Biomass_Chlamy_hetero and when the model is
+FAILED venv/Lib/site-packages/memote/suite/tests/test_biomass.py::test_biomass_precursors_open_production[Biomass_Chlamy_mixo] - AssertionError: Using the biomass reaction Biomass_Chlamy_mixo and when the model is
+FAILED venv/Lib/site-packages/memote/suite/tests/test_biomass.py::test_fast_growth_default[Biomass_Chlamy_auto] - AssertionError: Using the biomass reaction Biomass_Chlamy_auto and when the model is
+FAILED venv/Lib/site-packages/memote/suite/tests/test_biomass.py::test_fast_growth_default[Biomass_Chlamy_hetero] - AssertionError: Using the biomass reaction Biomass_Chlamy_hetero and when the model is
+FAILED venv/Lib/site-packages/memote/suite/tests/test_biomass.py::test_fast_growth_default[Biomass_Chlamy_mixo] - AssertionError: Using the biomass reaction Biomass_Chlamy_mixo and when the model is
+FAILED venv/Lib/site-packages/memote/suite/tests/test_biomass.py::test_direct_metabolites_in_biomass[Biomass_Chlamy_auto] - TypeError: Skipped expected string as 'msg' parameter, got 'dict' instead.
+FAILED venv/Lib/site-packages/memote/suite/tests/test_biomass.py::test_direct_metabolites_in_biomass[Biomass_Chlamy_hetero] - TypeError: Skipped expected string as 'msg' parameter, got 'dict' instead.
+FAILED venv/Lib/site-packages/memote/suite/tests/test_biomass.py::test_direct_metabolites_in_biomass[Biomass_Chlamy_mixo] - TypeError: Skipped expected string as 'msg' parameter, got 'dict' instead.
+FAILED venv/Lib/site-packages/memote/suite/tests/test_biomass.py::test_essential_precursors_not_in_biomass[Biomass_Chlamy_auto] - AssertionError: Biomass_Chlamy_auto lacks a total of 25 essential metabolites
+FAILED venv/Lib/site-packages/memote/suite/tests/test_biomass.py::test_essential_precursors_not_in_biomass[Biomass_Chlamy_hetero] - AssertionError: Biomass_Chlamy_hetero lacks a total of 25 essential metabolites
+FAILED venv/Lib/site-packages/memote/suite/tests/test_biomass.py::test_essential_precursors_not_in_biomass[Biomass_Chlamy_mixo] - AssertionError: Biomass_Chlamy_mixo lacks a total of 25 essential metabolites
+FAILED venv/Lib/site-packages/memote/suite/tests/test_consistency.py::test_stoichiometric_consistency - AssertionError: This model's stoichiometry inconsistent
+FAILED venv/Lib/site-packages/memote/suite/tests/test_consistency.py::test_unconserved_metabolites - AssertionError: This model contains 44 unconserved metabolites: o2_e, h2o_s,
+FAILED venv/Lib/site-packages/memote/suite/tests/test_consistency.py::test_inconsistent_min_stoichiometry - TypeError: sequence item 0: expected str instance, list found
+FAILED venv/Lib/site-packages/memote/suite/tests/test_consistency.py::test_detect_energy_generating_cycles[MNXM3] - AssertionError: The model can produce 'MNXM3' without requiring resources. This is
+FAILED venv/Lib/site-packages/memote/suite/tests/test_consistency.py::test_reaction_charge_balance - AssertionError: A total of 2300 (100.00%) reactions are charge unbalanced with at
+FAILED venv/Lib/site-packages/memote/suite/tests/test_consistency.py::test_reaction_mass_balance - AssertionError: A total of 53 (2.30%) reactions are mass unbalanced with at least
+FAILED venv/Lib/site-packages/memote/suite/tests/test_consistency.py::test_blocked_reactions - AssertionError: There are 604 (25.23%) blocked reactions in         the model: ALATLm,
+FAILED venv/Lib/site-packages/memote/suite/tests/test_consistency.py::test_find_stoichiometrically_balanced_cycles - AssertionError: There are 138 (5.76%) reactions         which participate in SBC in
+FAILED venv/Lib/site-packages/memote/suite/tests/test_consistency.py::test_find_orphans - AssertionError: A total of 86 (4.66%) metabolites are not produced by any reaction
+FAILED venv/Lib/site-packages/memote/suite/tests/test_consistency.py::test_find_deadends - AssertionError: A total of 148 (8.02%) metabolites are not consumed by any reaction
+FAILED venv/Lib/site-packages/memote/suite/tests/test_consistency.py::test_find_disconnected - AssertionError: A total of 2 (0.11%) metabolites are not associated with any
+FAILED venv/Lib/site-packages/memote/suite/tests/test_consistency.py::test_find_metabolites_not_produced_with_open_bounds - AssertionError: A total of 468 (25.37%) metabolites cannot be produced in complete
+FAILED venv/Lib/site-packages/memote/suite/tests/test_consistency.py::test_find_metabolites_not_consumed_with_open_bounds - AssertionError: A total of 738 (40.00%) metabolites cannot be consumed in complete
+FAILED venv/Lib/site-packages/memote/suite/tests/test_sbml.py::test_sbml_level - AssertionError: The SBML file uses: SBML Level 2 Version 1        
+FAILED venv/Lib/site-packages/memote/suite/tests/test_sbml.py::test_fbc_presence - AssertionError: The FBC package is *not* used.
+FAILED venv/Lib/site-packages/memote/suite/tests/test_sbo.py::test_biomass_specific_sbo_presence - AssertionError: A total of 3 biomass reactions (100.00% of all biomass reactions)

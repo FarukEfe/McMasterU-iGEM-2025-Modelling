@@ -1,58 +1,58 @@
-,KEGG_ID,NAME_SHORT,NAME_LONG,FORMULA
-1,C00187,Cholesterol,Cholest-5-en-3beta-ol,C27H46O
-2,C00448,trans,trans-Farnesyl diphosphate,Farnesyl diphosphate,C15H28O7P2
-3,C00751,Squalene,Spinacene,C30H50
-4,C01054,(S)-2,3-Epoxysqualene,Squalene 2,3-epoxide,C30H50O
-5,C01164,7-Dehydrocholesterol,Provitamin D3,C27H44O
-6,C01189,Lathosterol,5alpha-Cholest-7-en-3beta-ol,C27H46O
-7,C01561,Calcidiol,25-Hydroxyvitamin D3,C27H44O2
-8,C01673,Calcitriol,1alpha,25-Dihydroxyvitamin D3,C27H44O3
-9,C01694,Ergosterol,Provitamin D2,C28H44O
-10,C01724,Lanosterol,4,4',14alpha-Trimethyl-5alpha-cholesta-8,24-dien-3beta-ol,C30H50O
-11,C01753,beta-Sitosterol,Sitosterol,C29H50O
-12,C01789,Campesterol,NA,C28H48O
-13,C01802,Desmosterol,24-Dehydrocholesterol,C27H44O
-14,C01902,Cycloartenol,9beta,19-Cyclo-24-lanosten-3beta-ol,C30H50O
-15,C01943,Obtusifoliol,4alpha,14alpha-Dimethyl-5alpha-ergosta-8,24(28)-dien-3beta-ol,C30H50O
-16,C02141,Cycloeucalenol,NA,C30H50O
-17,C02530,Cholesterol ester,NA,C28H45O2R
-18,C03428,Presqualene diphosphate,NA,C30H52O7P2
-19,C03845,5alpha-Cholest-8-en-3beta-ol,Zymostenol,C27H46O
-20,C04525,Fecosterol,24-Methylene-5alpha-cholest-8-en-3beta-ol,C28H46O
-21,C05103,4alpha-Methylzymosterol,NA,C28H46O
-22,C05107,7-Dehydrodesmosterol,Cholesta-5,7,24-triene-3beta-ol,C27H42O
-23,C05108,14-Demethyllanosterol,4,4-Dimethyl-5alpha-cholesta-8,24-dien-3beta-ol,C29H48O
-24,C05109,24,25-Dihydrolanosterol,NA,C30H52O
-25,C05437,Zymosterol,Delta8,24-Cholestadien-3beta-ol,C27H44O
-26,C05439,5alpha-Cholesta-7,24-dien-3beta-ol,NA,C27H44O
-27,C05440,Ergosta-5,7,22,24(28)-tetraen-3beta-ol,Ergosta-5,7,22,24(24(1))-tetraen-3beta-ol,C28H42O
-28,C05441,Vitamin D2,Ergocalciferol,C28H44O
-29,C05442,Stigmasterol,NA,C29H48O
-30,C05443,Vitamin D3,Cholecalciferol,C27H44O
-31,C07712,Secalciferol,24(R),25-Dihydroxyvitamin D3,C27H44O3
-32,C08813,Brassicasterol,(3beta,22E)-Ergosta-5,22-dien-3-ol,C28H46O
-33,C08821,Isofucosterol,Delta5-Avenasterol,C29H48O
-34,C08830,24-Methylidenecycloartanol,4alpha,4beta,14alpha-Trimethyl-9beta,19-cyclo-5alpha-ergost-24(24(1))-en-3beta-ol,C31H52O
-35,C11455,4,4-Dimethyl-5alpha-cholesta-8,14,24-trien-3beta-ol,NA,C29H46O
-36,C11508,4alpha-Methyl-5alpha-ergosta-8,14,24(28)-trien-3beta-ol,Delta8,14-Sterol,C29H46O
-37,C11522,24-Methylenelophenol,24-Methylidenelophenol,C29H48O
-38,C11523,24-Ethylidenelophenol,alpha1-Sitosterol,C30H50O
-39,C15776,4alpha-Methylfecosterol,NA,C29H48O
-40,C15777,Episterol,(3beta,5alpha)-Ergosta-7,24(28)-dien-3-ol,C28H46O
-41,C15780,5-Dehydroepisterol,5,7,24(28)-Ergostatrienol,C28H44O
-42,C15781,24-Methylenecholesterol,NA,C28H46O
-43,C15782,Delta7-Avenasterol,7-Dehydroavenasterol,C29H48O
-44,C15783,5-Dehydroavenasterol,NA,C29H46O
-45,C15808,4alpha-Methylzymosterol-4-carboxylate,4alpha-Carboxy-4beta-methyl-5alpha-cholesta-8,24-dien-3beta-ol,C29H46O3
-46,C15816,3-Keto-4-methylzymosterol,NA,C28H44O
-47,C15915,4,4-Dimethyl-5alpha-cholesta-8-en-3beta-ol,NA,C29H50O
-48,C18231,Calcitetrol,1alpha,24R,25-Trihydroxyvitamin D3,C27H44O4
-49,C21106,24-epi-Campesterol,NA,C28H48O
-50,C22112,4alpha-Carboxy-5alpha-cholesta-8,24-dien-3beta-ol,NA,C28H44O3
-51,C22116,3beta-Hydroxy-4beta,14alpha-dimethyl-9beta,19-cyclo-5alpha-ergost-24(24(1))-en-4alpha-carboxylate,NA,C31H50O3
-52,C22119,3beta-Hydroxyergosta-7,24(24(1))-dien-4alpha-carboxylate,NA,C29H46O3
-53,C22120,4alpha-Carboxy-stigmasta-7,24(24(1))-dien-3beta-ol,NA,C30H48O3
-54,C22121,Cycloeucalenone,NA,C30H48O
-55,C22122,Episterone,5alpha-Ergosta-7,24(28)-dien-3-one,C28H44O
-56,C22123,Avenastenone,NA,C29H46O
-57,C22136,Zymosterone,5alpha-Cholesta-8,24-dien-3-one,C27H42O
+"","KEGG_ID","NAME_SHORT","NAME_LONG","FORMULA"
+"1","C00187","Cholesterol","Cholest-5-en-3beta-ol","C27H46O"
+"2","C00448","trans,trans-Farnesyl diphosphate","Farnesyl diphosphate","C15H28O7P2"
+"3","C00751","Squalene","Spinacene","C30H50"
+"4","C01054","(S)-2,3-Epoxysqualene","Squalene 2,3-epoxide","C30H50O"
+"5","C01164","7-Dehydrocholesterol","Provitamin D3","C27H44O"
+"6","C01189","Lathosterol","5alpha-Cholest-7-en-3beta-ol","C27H46O"
+"7","C01561","Calcidiol","25-Hydroxyvitamin D3","C27H44O2"
+"8","C01673","Calcitriol","1alpha,25-Dihydroxyvitamin D3","C27H44O3"
+"9","C01694","Ergosterol","Provitamin D2","C28H44O"
+"10","C01724","Lanosterol","4,4',14alpha-Trimethyl-5alpha-cholesta-8,24-dien-3beta-ol","C30H50O"
+"11","C01753","beta-Sitosterol","Sitosterol","C29H50O"
+"12","C01789","Campesterol",NA,"C28H48O"
+"13","C01802","Desmosterol","24-Dehydrocholesterol","C27H44O"
+"14","C01902","Cycloartenol","9beta,19-Cyclo-24-lanosten-3beta-ol","C30H50O"
+"15","C01943","Obtusifoliol","4alpha,14alpha-Dimethyl-5alpha-ergosta-8,24(28)-dien-3beta-ol","C30H50O"
+"16","C02141","Cycloeucalenol",NA,"C30H50O"
+"17","C02530","Cholesterol ester",NA,"C28H45O2R"
+"18","C03428","Presqualene diphosphate",NA,"C30H52O7P2"
+"19","C03845","5alpha-Cholest-8-en-3beta-ol","Zymostenol","C27H46O"
+"20","C04525","Fecosterol","24-Methylene-5alpha-cholest-8-en-3beta-ol","C28H46O"
+"21","C05103","4alpha-Methylzymosterol",NA,"C28H46O"
+"22","C05107","7-Dehydrodesmosterol","Cholesta-5,7,24-triene-3beta-ol","C27H42O"
+"23","C05108","14-Demethyllanosterol","4,4-Dimethyl-5alpha-cholesta-8,24-dien-3beta-ol","C29H48O"
+"24","C05109","24,25-Dihydrolanosterol",NA,"C30H52O"
+"25","C05437","Zymosterol","Delta8,24-Cholestadien-3beta-ol","C27H44O"
+"26","C05439","5alpha-Cholesta-7,24-dien-3beta-ol",NA,"C27H44O"
+"27","C05440","Ergosta-5,7,22,24(28)-tetraen-3beta-ol","Ergosta-5,7,22,24(24(1))-tetraen-3beta-ol","C28H42O"
+"28","C05441","Vitamin D2","Ergocalciferol","C28H44O"
+"29","C05442","Stigmasterol",NA,"C29H48O"
+"30","C05443","Vitamin D3","Cholecalciferol","C27H44O"
+"31","C07712","Secalciferol","24(R),25-Dihydroxyvitamin D3","C27H44O3"
+"32","C08813","Brassicasterol","(3beta,22E)-Ergosta-5,22-dien-3-ol","C28H46O"
+"33","C08821","Isofucosterol","Delta5-Avenasterol","C29H48O"
+"34","C08830","24-Methylidenecycloartanol","4alpha,4beta,14alpha-Trimethyl-9beta,19-cyclo-5alpha-ergost-24(24(1))-en-3beta-ol","C31H52O"
+"35","C11455","4,4-Dimethyl-5alpha-cholesta-8,14,24-trien-3beta-ol",NA,"C29H46O"
+"36","C11508","4alpha-Methyl-5alpha-ergosta-8,14,24(28)-trien-3beta-ol","Delta8,14-Sterol","C29H46O"
+"37","C11522","24-Methylenelophenol","24-Methylidenelophenol","C29H48O"
+"38","C11523","24-Ethylidenelophenol","alpha1-Sitosterol","C30H50O"
+"39","C15776","4alpha-Methylfecosterol",NA,"C29H48O"
+"40","C15777","Episterol","(3beta,5alpha)-Ergosta-7,24(28)-dien-3-ol","C28H46O"
+"41","C15780","5-Dehydroepisterol","5,7,24(28)-Ergostatrienol","C28H44O"
+"42","C15781","24-Methylenecholesterol",NA,"C28H46O"
+"43","C15782","Delta7-Avenasterol","7-Dehydroavenasterol","C29H48O"
+"44","C15783","5-Dehydroavenasterol",NA,"C29H46O"
+"45","C15808","4alpha-Methylzymosterol-4-carboxylate","4alpha-Carboxy-4beta-methyl-5alpha-cholesta-8,24-dien-3beta-ol","C29H46O3"
+"46","C15816","3-Keto-4-methylzymosterol",NA,"C28H44O"
+"47","C15915","4,4-Dimethyl-5alpha-cholesta-8-en-3beta-ol",NA,"C29H50O"
+"48","C18231","Calcitetrol","1alpha,24R,25-Trihydroxyvitamin D3","C27H44O4"
+"49","C21106","24-epi-Campesterol",NA,"C28H48O"
+"50","C22112","4alpha-Carboxy-5alpha-cholesta-8,24-dien-3beta-ol",NA,"C28H44O3"
+"51","C22116","3beta-Hydroxy-4beta,14alpha-dimethyl-9beta,19-cyclo-5alpha-ergost-24(24(1))-en-4alpha-carboxylate",NA,"C31H50O3"
+"52","C22119","3beta-Hydroxyergosta-7,24(24(1))-dien-4alpha-carboxylate",NA,"C29H46O3"
+"53","C22120","4alpha-Carboxy-stigmasta-7,24(24(1))-dien-3beta-ol",NA,"C30H48O3"
+"54","C22121","Cycloeucalenone",NA,"C30H48O"
+"55","C22122","Episterone","5alpha-Ergosta-7,24(28)-dien-3-one","C28H44O"
+"56","C22123","Avenastenone",NA,"C29H46O"
+"57","C22136","Zymosterone","5alpha-Cholesta-8,24-dien-3-one","C27H42O"

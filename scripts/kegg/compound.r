@@ -47,4 +47,4 @@ df <- data.frame(
     NAME_LONG = names_long_vec,
     FORMULA = formulas_vec
 )
-write.csv(df, file="./data/kegg/cre00100_compounds.csv", quote=FALSE)
+write.csv(df, file="./data/kegg/cre00100_compounds.csv", quote=TRUE)

@@ -4,6 +4,7 @@
     # Export flux ranges
 from cobra import io
 import argparse, os
+from cobra.core import Model, Reaction, Metabolite
 
 from cobra.flux_analysis import flux_variability_analysis
 import warnings, sys
@@ -29,14 +30,15 @@ if __name__ == "__main__":
         print('No model recognized. Exiting...')
         sys.exit(1)
 
+    r: Reaction = model.reactions.get_by_id("SS")
+    r.objective_coefficient = 1.0
+
     model.objective = "BIOMASS_Chlamy_auto"  # Set a default objective, can be changed later
     try:
         flux_ranges = flux_variability_analysis(model)
     except Exception as e:
         print(f"Error during flux variability analysis: {e}")
         sys.exit(1)
-
-    print("idgaf")
 
     file_name: str = os.path.split(args.sbmlpath)[-1].split('.')[0]
     output_file = f"{file_name}_fva.csv"
