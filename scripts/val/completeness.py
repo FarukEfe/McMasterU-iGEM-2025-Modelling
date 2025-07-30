@@ -186,4 +186,6 @@ if __name__ == "__main__":
                 exit(0)
             else:
                 print("Input not an option, choose one of the provided.\n")
-        
+
+# Run on KEGG-enhanced model to ensure the connectedness of the sterol biosynthesis pathway
+# Organize, modularize and make more usable & interpretable

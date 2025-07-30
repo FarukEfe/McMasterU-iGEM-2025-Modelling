@@ -7,21 +7,30 @@ from scripts.helpers.tools import get_rxn_metabolites, sort_by_similarity
 from data.altered.model import *
 from data.altered.parser import parse_obj
 # Other
-import os, sys
+import os, sys, argparse
 import pandas as pd
 
 if __name__ == "__main__":
 
     # Get initial model path (or name) as input from command line
 
-    pth = "./data/raw/iBD1106.xml"
+    # Script Argument(s)
+    parser = argparse.ArgumentParser(
+        prog='_load_model',
+        description='Load and validate your fba metabolic model from the .sbml format.'
+    )
+    parser.add_argument('sbmlpath')
+    args = parser.parse_args()
 
-    model, error = io.validate_sbml_model(pth, validate=True)
+    model, error = io.validate_sbml_model(args.sbmlpath, validate=True)
 
     if not model:
         print('No model recognized. Exiting...')
         sys.exit(1)
     
+    # Define model name from file input
+    model_name = os.path.split(args.sbmlpath)[-1].split('.')[0]
+    print(f"Model name: {model_name}")
     # Import kegg .csv files
     kegg_compound_path = "./data/kegg/cre00100_compounds_ext.csv"
     kegg_rxn_path = "./data/kegg/cre00100_reactions.csv"
@@ -37,19 +46,17 @@ if __name__ == "__main__":
     new_model.id = "KEGG_Gapfill_Model"
 
     # iterate through dataframe to add metabolites that are missing
-    list_mets: list[tuple[str,str,Metabolite]] = [(met.id, met.name, met) for met in model.metabolites]
+    list_mets: list[tuple[str,str,Metabolite]] = [(met.id, met.name, met) for met in new_model.metabolites]
+    list_forms: list[str] = [met.formula for met in new_model.metabolites if met.compartment == 'c']
     for _, cpd in kegg_compound_df.iterrows():
         searches = sort_by_similarity(list_mets, cpd['NAME_SHORT'])
         print(cpd['NAME_SHORT'], f"({cpd['FORMULA']})", f". Most similar:\n\t{"\n\t".join(list(map(lambda x: f"{x[1]} ({x[2].formula}) ({x[2].compartment})", searches))[:5])}", end='\n')
 
-        # Filter searches based on if they're in compartment 'c'
-        searches = [s[2].formula for s in searches if s[2].compartment == 'c']
-
-        if cpd['FORMULA'] in searches:
-            print(f"Found matching compound: {cpd['NAME_SHORT']} ({cpd['FORMULA']})")
-            continue
+        if cpd['FORMULA'] in list_forms:
+            hit = [met for met in new_model.metabolites if (met.compartment == 'c' and met.formula == cpd['FORMULA'])][0]
+            print(f"Found matching compound for {cpd['NAME_SHORT']} ({cpd['FORMULA']}):\n\t{hit.id}, {hit.name}, {hit.formula}, {hit.compartment}")
         else:
-            print(f"No matching compound found for: {cpd['NAME_SHORT']} ({cpd['FORMULA']})")
+            print(f"No matches. Adding to model")
             newMet = Metabolite(
                 id=cpd['KEGG_ID'],
                 name=cpd['NAME_SHORT'],
@@ -58,41 +65,13 @@ if __name__ == "__main__":
             )
             new_model.add_metabolites([newMet])
             print(f"Added {newMet.id} to the new model.")
-            continue
-        
-        # while True:
-        #     ans = input("1 - Add Met | 0 - Ignore\n")
 
-        #     if ans == "1":
-        #         newMet = Metabolite(
-        #             id=cpd['KEGG_ID'],
-        #             name=cpd['NAME_SHORT'],
-        #             formula=cpd['FORMULA'],
-        #             compartment='c',
-        #         )
-        #         new_model.add_metabolites([newMet])
-        #         print(f"Added {newMet.id} to the new model.")
-        #         break
-        #     elif ans == "0":
-        #         break
-        #     else:
-        #         continue
+        _ = input("Waiting to continue...")
 
     # On each compartment, make a dictionary binding formulas to metabolite ids for reaction lookup
     lookup_dict = {}
     for _, cpd in kegg_compound_df.iterrows():
         lookup_dict[cpd['KEGG_ID']] = cpd['FORMULA']
-
-    # Create a rxn id for each reaction based on the reactants and products, same as line 101
-    # rxn_lookup_dict = {}
-    # for rxn in model.reactions:
-    #     # Get the formulas for each metabolite in the reaction
-    #     reactants = get_rxn_metabolites(rxn, 'reactants')
-    #     products = get_rxn_metabolites(rxn, 'products')
-    #     # Create a unique id based on the sorted formulas
-    #     fid = '+'.join(sorted(reactants)) + '+' + '+'.join(sorted(products))
-    #     # Add to lookup dictionary
-    #     rxn_lookup_dict[rxn.id] = fid
 
     # Create a dictionary for compartment lookup    
     compartment_dict = {}
@@ -105,11 +84,6 @@ if __name__ == "__main__":
     list_rxns: list[tuple[str,str,Reaction]] = [(rxn.id,rxn.name,rxn) for rxn in model.reactions]
     for id, rxn in kegg_rxn_df.iterrows():
         print(rxn['NAME'], f". Most similar:\n\t{"\n\t".join(list(map(lambda x: f"{x[1]} ({list(map(lambda y: y[0].name, x[2].metabolites.items()))}) ({str(x[2].compartments)})", sort_by_similarity(list_rxns, rxn['NAME'])))[:5])}", end='\n')
-
-        # # Create rxn id by sorting the reactants' and products' formulas (then concatenate)
-        # fid = '+'.join(sorted(rxn['REACTANTS'].split('+'))) + '+' + '+'.join(sorted(rxn['PRODUCTS'].split('+')))
-        # # add the reaction to 'c' compartment whenever there's a missing id in already existing reactions
-        # if fid in rxn_lookup_dict.values(): continue
 
         while True:
             ans = input("1 - Add Rxn | 0 - Ignore\n")
@@ -151,9 +125,6 @@ if __name__ == "__main__":
     print(f"Old model has {len(model.metabolites)} metabolites and {len(model.reactions)} reactions.")
 
     # Export new_model to sbml
-    io.write_sbml_model(new_model, "./data/altered/kegg_gapfill_model.xml")
+    io.write_sbml_model(new_model, f"./data/altered/xmls/KEGG_{model_name}_GAPFILL.xml")
 
-# All reactions seem to have no coefficient, confirm
-# Double check that all metabolites and reactions are added to the correct compartments
-# Test new model for feasibility
-# Save the new model
+# Check if Ergosterol inserts to model and if not, what is the formula hit (make sure it's properly inserted and connected)
