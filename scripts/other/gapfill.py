@@ -126,5 +126,3 @@ if __name__ == "__main__":
 
     # Export new_model to sbml
     io.write_sbml_model(new_model, f"./data/altered/xmls/KEGG_{model_name}_GAPFILL.xml")
-
-# Check if Ergosterol inserts to model and if not, what is the formula hit (make sure it's properly inserted and connected)
