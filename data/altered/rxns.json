@@ -1,9 +1,0 @@
-[
-    {
-    "name": "FPPS_but_new",
-    "subs": [ { "name": "DMAPP", "coef": 1 }, { "name": "IPP", "coef": 2 } ],
-    "prod": [ { "name": "FPP", "coef": 1 }, { "name": "PPi", "coef": 2 } ],
-    "reversible": false,
-    "energy": "none"
-    }
-]
