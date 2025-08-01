@@ -3,9 +3,6 @@ from cobra import io
 from cobra.core import Reaction, Metabolite, Model
 # Toolbox
 from scripts.helpers.tools import get_rxn_metabolites, sort_by_similarity
-# Parse
-from data.altered.model import *
-from data.altered.parser import parse_obj
 # Other
 import os, sys, argparse
 import pandas as pd
@@ -47,10 +44,12 @@ if __name__ == "__main__":
 
     # iterate through dataframe to add metabolites that are missing
     list_mets: list[tuple[str,str,Metabolite]] = [(met.id, met.name, met) for met in new_model.metabolites]
-    list_forms: list[str] = [met.formula for met in new_model.metabolites if met.compartment == 'c']
     for _, cpd in kegg_compound_df.iterrows():
         searches = sort_by_similarity(list_mets, cpd['NAME_SHORT'])
         print(cpd['NAME_SHORT'], f"({cpd['FORMULA']})", f". Most similar:\n\t{"\n\t".join(list(map(lambda x: f"{x[1]} ({x[2].formula}) ({x[2].compartment})", searches))[:5])}", end='\n')
+
+        # Formulas of compounds already in the cytoplasm of the new_model (need to recompute since additions are being made)
+        list_forms: list[str] = [met.formula for met in new_model.metabolites if met.compartment == 'c']
 
         if cpd['FORMULA'] in list_forms:
             hit = [met for met in new_model.metabolites if (met.compartment == 'c' and met.formula == cpd['FORMULA'])][0]
