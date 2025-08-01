@@ -120,6 +120,6 @@ if __name__ == "__main__":
         print(f"Control model {model_name} had {len(model.metabolites)} metabolites and {len(model.reactions)} reactions.")
         _ = input("Press Enter to continue...")
         
-        save_path = f"./results/fluxes/altered/{model_name}"
+        save_path = f"./data/altered/xmls/{model_name}"
         if not os.path.exists(save_path): os.makedirs(save_path)
         io.write_sbml_model(new_model, os.path.join(save_path, f"{item['name']}.xml"))

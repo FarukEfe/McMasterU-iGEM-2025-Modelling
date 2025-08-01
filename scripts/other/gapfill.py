@@ -124,4 +124,6 @@ if __name__ == "__main__":
     print(f"Old model has {len(model.metabolites)} metabolites and {len(model.reactions)} reactions.")
 
     # Export new_model to sbml
-    io.write_sbml_model(new_model, f"./data/altered/xmls/KEGG_{model_name}_GAPFILL.xml")
+    save_path = f"./data/kegg/xmls/{model_name}"
+    if not os.path.exists(save_path): os.makedirs(save_path)
+    io.write_sbml_model(new_model, os.path.join(save_path, f"KEGG_{model_name}_GAPFILL.xml"))
