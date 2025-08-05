@@ -52,7 +52,8 @@ class DiGraph:
                     edges[src] = [dest]
                 else:
                     edges[src] = edges[src] + [dest]
-                weight[(src,dest)] = abs(coef)
+                # weight[(src,dest)] = abs(coef)
+                weight[(src, dest)] = 1
                 metcount += 1
             rxncount += 1
             
@@ -98,6 +99,48 @@ class DiGraph:
         
         return visits
     
+    def dijkstra_sp(self, src: str):
+        
+        dist, prev, queue = {}, {}, []
+
+        for n in self.nodes.keys():
+            dist[n] = float('inf')
+            prev[n] = None
+            queue.append(n)
+        
+        dist[src] = 0
+
+        while len(queue) > 0:
+            u = min(queue, key=lambda x: dist[x])
+            queue.remove(u)
+
+            if not self.get_edges()[u]: 
+                dist[u] = float('inf')
+                continue
+
+            for v in self.get_edges()[u]:
+                alt = dist[u] + self.weight.get((u, v), 1)
+
+                if alt < dist[v]:
+                    dist[v] = alt
+                    prev[v] = u
+
+        # Return the shortest path and its distance
+        return dist, prev
+
+    def dijkstra_search(self, src: str, dest: str):
+        dist, prev = self.dijkstra_sp(src)
+
+        # Reconstruct the shortest path
+        path = []
+        current = dest
+        while current is not None:
+            path.append(current)
+            current = prev.get(current)
+
+        path.reverse()
+        return path, dist.get(dest)
+
     # Convert pyvis
 
     def convert_pyvis(self, filename: str, src: str, finds: list[str], include = None):
@@ -137,12 +180,18 @@ if __name__ == "__main__":
     if model:
 
         target_subsystem = ["Pyruvate metabolism", "Transport, chloroplast", "Biosynthesis of steroids"]
-        rxns = [rxn for rxn in model.reactions if rxn.subsystem in target_subsystem]
+        rxns = [rxn for rxn in model.reactions] # if rxn.subsystem in target_subsystem]
         find_list = ["SS", "CAS", "sql_c", "psqldp_c", "chsterol_c", "mergtrol_c"]
         src_met = "FRDPth"
         
         graph = DiGraph(rxns)
+        print(graph.get_met_count(), graph.get_rxn_count(), graph.get_node_count())
+        print(len(rxns), len(model.metabolites), len(model.reactions) + len(rxns))
+        exit(1)
         res = graph.find_sp(src_met)
+        # res2 = graph.dijkstra_search(src_met, "SS")
+        # print(res2)
+        # exit(1)
         # res = []
 
         met_list = [(met.id, met.name) for met in model.metabolites]

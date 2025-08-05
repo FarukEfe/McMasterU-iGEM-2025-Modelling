@@ -43,10 +43,11 @@ if __name__ == "__main__":
     new_model.id = "KEGG_Gapfill_Model"
 
     # iterate through dataframe to add metabolites that are missing
+    cpd_lookup = {}
     list_mets: list[tuple[str,str,Metabolite]] = [(met.id, met.name, met) for met in new_model.metabolites]
     for _, cpd in kegg_compound_df.iterrows():
         searches = sort_by_similarity(list_mets, cpd['NAME_SHORT'])
-        print(cpd['NAME_SHORT'], f"({cpd['FORMULA']})", f". Most similar:\n\t{"\n\t".join(list(map(lambda x: f"{x[1]} ({x[2].formula}) ({x[2].compartment})", searches))[:5])}", end='\n')
+        print(cpd['NAME_SHORT'], f"({cpd['FORMULA']})", f". Most similar:\n\t{"\n\t".join(list(map(lambda x: f"{x[0]}: {x[1]} ({x[2].formula}) ({x[2].compartment})", searches))[:5])}", end='\n')
 
         # Formulas of compounds already in the cytoplasm of the new_model (need to recompute since additions are being made)
         list_forms: list[str] = [met.formula for met in new_model.metabolites if met.compartment == 'c']
@@ -54,7 +55,17 @@ if __name__ == "__main__":
         if cpd['FORMULA'] in list_forms:
             hit = [met for met in new_model.metabolites if (met.compartment == 'c' and met.formula == cpd['FORMULA'])][0]
             print(f"Found matching compound for {cpd['NAME_SHORT']} ({cpd['FORMULA']}):\n\t{hit.id}, {hit.name}, {hit.formula}, {hit.compartment}")
+            cpd_lookup[cpd['KEGG_ID']] = hit
         else:
+            
+            inp = input("Type in matching id if you see it, otherwise ignore\n")
+            
+            met = new_model.metabolites.get_by_id(inp) if inp in new_model.metabolites else None
+            if met:
+                cpd_lookup[cpd['KEGG_ID']] = met
+                print("Successfully added the compound to lookup.")
+                continue
+
             print(f"No matches. Adding to model")
             newMet = Metabolite(
                 id=cpd['KEGG_ID'],
@@ -64,25 +75,14 @@ if __name__ == "__main__":
             )
             new_model.add_metabolites([newMet])
             print(f"Added {newMet.id} to the new model.")
+            cpd_lookup[cpd['KEGG_ID']] = newMet
 
         _ = input("Waiting to continue...")
-
-    # On each compartment, make a dictionary binding formulas to metabolite ids for reaction lookup
-    lookup_dict = {}
-    for _, cpd in kegg_compound_df.iterrows():
-        lookup_dict[cpd['KEGG_ID']] = cpd['FORMULA']
-
-    # Create a dictionary for compartment lookup    
-    compartment_dict = {}
-    for met in new_model.metabolites:
-        if met.compartment not in compartment_dict:
-            compartment_dict[met.compartment] = {}
-        compartment_dict[met.compartment][met.formula] = met
 
     # iterate through dataframe to add rxns in the same manner
     list_rxns: list[tuple[str,str,Reaction]] = [(rxn.id,rxn.name,rxn) for rxn in model.reactions]
     for id, rxn in kegg_rxn_df.iterrows():
-        print(rxn['NAME'], f". Most similar:\n\t{"\n\t".join(list(map(lambda x: f"{x[1]} ({list(map(lambda y: y[0].name, x[2].metabolites.items()))}) ({str(x[2].compartments)})", sort_by_similarity(list_rxns, rxn['NAME'])))[:5])}", end='\n')
+        print(rxn['NAME'], f". Most similar:\n\t{"\n\t".join(list(map(lambda x: f"{x[0]}: {x[1]} ({str(x[2].compartments)}) ({list(map(lambda y: y[0].name, x[2].metabolites.items()))})", sort_by_similarity(list_rxns, rxn['NAME'])))[:5])}", end='\n')
 
         while True:
             ans = input("1 - Add Rxn | 0 - Ignore\n")
@@ -91,14 +91,10 @@ if __name__ == "__main__":
                 reactants = rxn['REACTANTS'].split('+')
                 products = rxn['PRODUCTS'].split('+')
                 # Get the formulas for each from the lookup dictionary
-                r_formulas = [lookup_dict[met.strip()] for met in reactants if met.strip() in lookup_dict]
-                p_formulas = [lookup_dict[met.strip()] for met in products if met.strip() in lookup_dict]
-                # Get the correct ids from the dictionary lookup
-                r_ids = {compartment_dict['c'][formula]: -1 for formula in r_formulas if formula in compartment_dict['c']}
-                p_ids = {compartment_dict['c'][formula]: 1 for formula in p_formulas if formula in compartment_dict['c']}
+                r_obj = {cpd_lookup[met.strip()]: -1 for met in reactants if met.strip() in cpd_lookup}
+                p_obj = {cpd_lookup[met.strip()]: 1 for met in products if met.strip() in cpd_lookup}
                 # Concatenate the dictionaries
-                mets_dict = {**r_ids, **p_ids}
-                # print(mets_dict)
+                mets_dict = {**r_obj, **p_obj}
                 # Add the metabolites to reaction
                 newRxn = Reaction(
                     id=id,
@@ -124,6 +120,6 @@ if __name__ == "__main__":
     print(f"Old model has {len(model.metabolites)} metabolites and {len(model.reactions)} reactions.")
 
     # Export new_model to sbml
-    save_path = f"./data/kegg/xmls/{model_name}"
+    save_path = f"./data/kegg/xmls"
     if not os.path.exists(save_path): os.makedirs(save_path)
     io.write_sbml_model(new_model, os.path.join(save_path, f"KEGG_{model_name}_GAPFILL.xml"))

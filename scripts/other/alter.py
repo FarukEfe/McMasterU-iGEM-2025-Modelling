@@ -55,7 +55,7 @@ if __name__ == "__main__":
     c_add_count = 0
     for item in blueprint:
 
-        print(f"Processing item: {item['name']}")
+        print(f"\n\nProcessing item: {item['name']}")
         new_model = model.copy()
 
         # List of compound references
@@ -67,41 +67,59 @@ if __name__ == "__main__":
                 continue
 
             # Get list of metabolites involved in the reaction
-            print(f"Processing EC {row['EC']} with reactions: {row['ID']}")
+            # print(f"\n\nProcessing EC {row['EC']} with reactions: {row['ID']}")
             reactants = list(map(split_coef_reac, row['REACTANTS'].split('+')))
             products = list(map(split_coef, row['PRODUCTS'].split('+')))
             compounds = [*reactants, *products]
-            print(compounds)
+            # print(compounds)
 
             add_mets = {}
             for coef, cpd in compounds:
+
                 # Add compound if previously discovered
                 if cpd in compound_ref.keys():
                     print(f"Compound {cpd} already exists in compound_ref. Skipping...")
                     met_ref = compound_ref[cpd]
                     add_mets[met_ref] = coef
                     continue
+
                 # Try to find compound match based on formula and compartment
                 formula = cpds_df[cpds_df['ID'] == cpd]['FORMULA'].values[0]
                 if pd.isna(formula):
                     print(f"Compound {cpd} has no formula in compounds_list.csv. Skipping...")
                     continue
+
                 # Search for existing compound in the model
-                print(f"Processing compound {cpd} with formula: {formula}")
+                # print(f"Processing compound {cpd} with formula: {formula}")
                 hits = [met for met in new_model.metabolites if met.compartment == 'c' and met.formula == formula]
                 # Create new compound if not found (should be the case for almost all compounds)
                 if len(hits) == 0:
-                    print(f"Compound {cpd} not found in model. Adding...")
+
                     cpd_name = cpds_df[cpds_df['ID'] == cpd]['NAME'].values[0]
-                    newMet = Metabolite(
-                        id=cpd,
-                        name=cpd_name,
-                        formula=formula,
-                        compartment='c',
-                    )
-                    new_model.add_metabolites([newMet])
-                    compound_ref[cpd] = newMet
-                    c_add_count += 1
+
+                    # Manually search, let user decide if it should be added or not
+                    similars = sort_by_similarity([(met.id, met.name, met) for met in new_model.metabolites if met.compartment == 'c'], cpd_name)
+                    print(f"Compound name: {cpd_name}.\nSimilar finds:\n\t", "\n\t".join(list(map(lambda x: str(x), similars[:8]))))
+
+                    inp = input("Add or replace? (Type in component id to add, otherwise nothing)")
+
+                    if inp != "":
+                        # Add metabolite from model reference if user decides there's enough similarity
+                        metRef = new_model.metabolites.get_by_id(inp)
+                        compound_ref[cpd] = metRef
+                        c_add_count += 1
+                    else:
+                        # Make a new metabolite for the model if user decides
+                        print(f"Compound {cpd} not found in model. Adding...")
+                        newMet = Metabolite(
+                            id=cpd,
+                            name=cpd_name,
+                            formula=formula,
+                            compartment='c',
+                        )
+                        new_model.add_metabolites([newMet])
+                        compound_ref[cpd] = newMet
+                        c_add_count += 1
                 else:
                     compound_ref[cpd] = hits[0]
                 # Add the metabolite associated with KEGG compound
