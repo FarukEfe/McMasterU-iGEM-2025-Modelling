@@ -30,10 +30,10 @@ if __name__ == "__main__":
         print('No model recognized. Exiting...')
         sys.exit(1)
 
-    r: Reaction = model.reactions.get_by_id("SS")
-    r.objective_coefficient = 1.0
+    # r: Reaction = model.reactions.get_by_id("SS")
+    # r.objective_coefficient = 1.0
 
-    model.objective = "BIOMASS_Chlamy_auto"  # Set a default objective, can be changed later
+    model.objective = "SS"  # Set a default objective, can be changed later
     try:
         flux_ranges = flux_variability_analysis(model)
     except Exception as e:

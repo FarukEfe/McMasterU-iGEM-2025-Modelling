@@ -18,8 +18,14 @@ if __name__ == "__main__":
     parser.add_argument('-d', '--dest')
     args = parser.parse_args()
 
+    # Print arguments
+    print(f"Loading model from: {args.sbmlpath}")
+    print(f"Destination directory: {args.dest}")
+
     # Model Import
     model, error = io.validate_sbml_model(args.sbmlpath)
+
+    print(model)
 
     if not model:
         print(f'Error loading model: {error}')
