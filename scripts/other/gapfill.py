@@ -99,7 +99,7 @@ if __name__ == "__main__":
                 newRxn = Reaction(
                     id=id,
                     name=rxn['NAME'],
-                    subsystem=rxn['PATHWAYS']
+                    subsystem='Biosynthesis of Steroids'
                 )
                 # Important info for reaction
                 newRxn.reversibility = True # Add rxns in db are reversible it seems

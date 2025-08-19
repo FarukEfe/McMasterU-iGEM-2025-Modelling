@@ -86,6 +86,7 @@ class DiGraph:
         queue = [src]
         visits: list[str] = []
 
+        count = 0
         while len(queue) > 0:
 
             n = queue[0]
@@ -96,6 +97,9 @@ class DiGraph:
             for m in d:
                 if m not in visits:
                     queue.append(m)
+            
+            count += 1
+            print(count, end='\r')
         
         return visits
     
@@ -152,7 +156,8 @@ class DiGraph:
         for item in self.names.items():
             id, name = item
             if id not in include: continue
-            network.add_node(id, label=name, color=("#ee5533" if id == src else "#33ee88" if id in finds else "#3388ee"))
+            is_rxn = self.nodes[id].type == NType.REACTION
+            network.add_node(id, label=name, color=("#ee5533" if id == src else "#33ee88" if id in finds else "#3388ee"), size=(60 if is_rxn else 20))
         # Build edges in pyvis graph
         for edge in self.edges.items():
             n, ms = edge
@@ -179,20 +184,13 @@ if __name__ == "__main__":
 
     if model:
 
-        target_subsystem = ["Pyruvate metabolism", "Transport, chloroplast", "Biosynthesis of steroids"]
-        rxns = [rxn for rxn in model.reactions] # if rxn.subsystem in target_subsystem]
-        find_list = ["SS", "CAS", "sql_c", "psqldp_c", "chsterol_c", "mergtrol_c"]
-        src_met = "FRDPth"
+        target_subsystem = ["Biosynthesis of steroids"]
+        find_list = ["CAS", "sql_c", "psqldp_c", "chsterol_c", "mergtrol_c", "ALTERED_R02874", "ALTERED_R06223"]
+        rxns = [rxn for rxn in model.reactions if rxn.subsystem in target_subsystem or rxn.id in find_list] # if rxn.subsystem in target_subsystem]
+        src_met = "SS"
         
         graph = DiGraph(rxns)
-        print(graph.get_met_count(), graph.get_rxn_count(), graph.get_node_count())
-        print(len(rxns), len(model.metabolites), len(model.reactions) + len(rxns))
-        exit(1)
         res = graph.find_sp(src_met)
-        # res2 = graph.dijkstra_search(src_met, "SS")
-        # print(res2)
-        # exit(1)
-        # res = []
 
         met_list = [(met.id, met.name) for met in model.metabolites]
         rxn_list = [(rxn.id, rxn.name) for rxn in model.reactions]

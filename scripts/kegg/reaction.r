@@ -21,7 +21,6 @@ cids <- names(query[[1]]$COMPOUND)
     # for each reaction, find the pathway and formula
         # If a reaction pathway is a match, add the formula to a new spreadsheet
         # For each compound not currently in the list, add to the new compound list of downloads
-
 rxns <- list()
 full_cids <- cids
 batch_size <- 10
@@ -65,13 +64,16 @@ for (i in seq(1, length(cids), by = batch_size)) {
                 }
 
                 eqn <- gsub(" ", "", reaction_data$EQUATION)  # Remove spaces from the equation
+                
                 # Split eqn into reactants and products
                 reactants <- strsplit(eqn, "<=>")[[1]][1]
                 products <- strsplit(eqn, "<=>")[[1]][2]
+                
                 # split reactants and products into individual compounds
                 reactants_list <- strsplit(reactants, "\\+")[[1]]
                 products_list <- strsplit(products, "\\+")[[1]]
                 full_cids <- c(full_cids, reactants_list, products_list)
+                
                 # Get formula list for reactants and products
                 rxns[[rxn_id]] <- list(
                     KEGG_ID = rxn_id,
@@ -116,17 +118,21 @@ for (i in seq(1, length(full_cids), by = batch_size)) {
   # Add to results
   all_results <- c(all_results, res)
 }
+
 # Extract the id and names
 all_entries <- lapply(all_results, function(item) { item$ENTRY[[1]] })
 all_ids <- lapply(all_entries, function(item) { item[[1]] })
 all_names <- lapply(all_results, function(item) { item$NAME })
 all_names_short <- lapply(all_names, function(item) { if (length(item) >= 1) { gsub(";", "", item[[1]]) } else {NA} })
 all_names_long <- lapply(all_names, function(item) { if (length(item) > 1) { gsub(";", "", item[[2]]) } else {NA} })
+
 # Extract the formula for each compound
 all_formulas <- lapply(all_results, function(item) { item$FORMULA })
-# Other important specs
+
+# Extract the exact mass and molecular weight (probably won't need to use)
 all_exact_mass <- lapply(all_results, function(item) { if (!is.null(item$EXACT_MASS)) { item$EXACT_MASS } else {NA} })
 all_mol_weight <- lapply(all_results, function(item) { if (!is.null(item$MOL_WEIGHT)) { item$MOL_WEIGHT } else {NA} })
+
 # Unlist
 cids_vec <- unlist(all_ids)
 names_short_vec <- unlist(all_names_short)
