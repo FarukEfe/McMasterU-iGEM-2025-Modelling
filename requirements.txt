@@ -12,3 +12,7 @@ biopython
 python-Levenshtein
 # CLI
 argparse
+# Visualization
+manim
+kaleido
+plotly

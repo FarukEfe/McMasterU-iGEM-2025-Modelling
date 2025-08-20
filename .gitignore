@@ -25,3 +25,5 @@ lib
 *.ipynb_checkpoints
 # Escher
 *.html
+# Manim
+media/
