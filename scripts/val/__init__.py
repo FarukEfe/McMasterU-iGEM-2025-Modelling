@@ -1,7 +1,7 @@
 import cobra.io as io, argparse, requests
 from cobra.manipulation.validate import check_mass_balance, check_metabolite_compartment_formula
 from cobra.flux_analysis import add_loopless, find_blocked_reactions
-from scripts.helpers.energy_cycles import energy_cycles_flux, find_egcs_null_space
+from scripts.helpers.model import energy_cycles_flux, find_egcs_null_space
 from cobra.core import Model, Reaction, Metabolite
 
 if __name__ == "__main__":
