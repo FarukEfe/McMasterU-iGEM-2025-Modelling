@@ -18,7 +18,7 @@ def alter(argpath: str):
         sys.exit(1)
 
     # Extract model name
-    model_name = os.path.split(args.sbmlpath)[-1].split('.')[0]
+    ref_name = os.path.split(args.sbmlpath)[-1].split('.')[0]
 
     # Import alteration tables for reactions and compounds
     rxns_df = pd.read_csv("./data/altered/tables/stable/reactions.csv")
@@ -55,6 +55,7 @@ def alter(argpath: str):
 
         print(f"\n\nProcessing item: {item['name']}")
         model = ref.copy()
+        model.name = ref_name + "_" + item['name']
 
         # Add reactions in blueprint iteration
         for _, row in rxns_df.iterrows():
@@ -77,11 +78,11 @@ def alter(argpath: str):
             )
         
         # Print out results
-        print(f"New model {item['name']} has {len(model.reactions)} reactions.")
-        print(f"Control model {model_name} had {len(model.reactions)} reactions.")
-        
+        print(f"New model {model.name} has {len(model.reactions)} reactions.")
+        print(f"Control model {ref_name} had {len(ref.reactions)} reactions.")
+
         # Save altered model to repo
-        save_path = f"./data/altered/xmls/{model_name}"
+        save_path = f"./data/altered/xmls/{ref_name}"
         if not os.path.exists(save_path): os.makedirs(save_path)
         io.write_sbml_model(model, os.path.join(save_path, f"{item['name']}.xml"))
 
