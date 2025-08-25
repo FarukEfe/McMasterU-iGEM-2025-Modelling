@@ -6,7 +6,14 @@ import numpy as np
 from scipy.linalg import null_space
 import networkx as nx
 
-def met_in_model(model, met: str):
+def rxn_in_model(model: Model, rxn: str):
+    try:
+        model.reactions.get_by_id(rxn)
+        return True
+    except:
+        return False
+
+def met_in_model(model: Model, met: str):
     try:
         model.metabolites.get_by_id(met)
         return True

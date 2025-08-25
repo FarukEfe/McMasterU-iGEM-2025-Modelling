@@ -7,8 +7,8 @@ from cobra.util.solver import linear_reaction_coefficients
 
 def flux_balance_analysis(
     model: Model,
-    loopless: bool,
     objectives: list[str],
+    loopless: bool=False,
     is_pfba: bool = False,
     reactions: list[str] = None,
     pfba_factor: float = 1.1,
