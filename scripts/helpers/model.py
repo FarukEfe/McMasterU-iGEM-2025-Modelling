@@ -33,7 +33,7 @@ def add_single_gene_reaction_pair(
     """Add a gene-reaction pair to the model."""
 
     # Avoid duplicates for gene and reaction
-    assert not model.genes.query(lambda k: k == gene_id, attribute='id')
+    # assert not model.genes.query(lambda k: k == gene_id, attribute='id')
     assert not model.reactions.query(lambda k: k == reaction_id, attribute='id')
     # Avoid metabolites not in model and subsystem exists
     assert all(list(map(lambda x: met_in_model(model, x[1]), metabolites)))
@@ -44,10 +44,17 @@ def add_single_gene_reaction_pair(
 
     if gene_name is None:
         gene_name = gene_id
-    gene = Gene(gene_id, name=gene_name)
+    
+    # Set gene
+    gene = None
+    if gene_id in [g.id for g in model.genes]:
+        gene = model.genes.get_by_id(gene_id)
+    else:
+        gene = Gene(gene_id, name=gene_name)
+        model.genes.add(gene)
 
+    # Set reaction
     model.add_reactions([rxn])
-    model.genes.add(gene)
 
     rxn.name = reaction_name
     rxn.bounds = (-1000, 1000) if reversible else (0, 1000)
