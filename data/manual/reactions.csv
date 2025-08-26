@@ -1,6 +1,0 @@
-"ID","NAME","REACTANTS","PRODUCTS","PATHWAY","REVERSIBLE","GENE_ID","MARK"
-"RXNFILL_01","24-methylenesterol C-methyltransferase","mfecostrl_c","FILL_01","Biosynthesis of steroids","False","HYD1","GOOD"
-"RXNFILL_02","C-5 sterol desaturase","FILL_01","FILL_02","Biosynthesis of steroids","False","ERG28","DK"
-"RXNFILL_03","C-5 sterol desaturase (ERG3)","FILL_02+nadph_c+o2_c","FILL_03","Biosynthesis of steroids","False","STE1","DK"
-"RXNFILL_04","C-22 sterol desaturase (ERG5)","FILL_03+nadph_c+h_c+o2_c","FILL_04+nadp_c+2h2o_c","Biosynthesis of steroids","False","CYP710","GOOD"
-"RXNFILL_05","C-24 sterol reductase","FILL_04+nadph_c+h_c","FILL_05+nadp_c","Biosynthesis of steroids","False","ERG4","GOOD"

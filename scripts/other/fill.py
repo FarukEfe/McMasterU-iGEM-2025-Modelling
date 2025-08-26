@@ -22,20 +22,22 @@ if __name__ == "__main__":
         exit(1)
 
     model = old.copy()
-    
+    # Get file name
+    model_name = os.path.splitext(os.path.basename(args.sbmlpath))[0]
+
     # Import the manual reactions and compounds tables
-    reactions_df = pd.read_csv("./data/manual/reactions.csv")
-    compounds_df = pd.read_csv("./data/manual/compounds.csv")
+    reactions_df = pd.read_csv("./data/fill/reactions.csv")
+    compounds_df = pd.read_csv("./data/fill/compounds.csv")
 
     print("Adding compounds ...\n")
     for index, row in compounds_df.iterrows():
 
-        print(f"Cpd: {row['ID']}, {row['NAME_SHORT']}")
+        # print(f"Cpd: {row['ID']}, {row['NAME_SHORT']}")
         newMet = Metabolite(
             id=row['ID'],
             name=row['NAME_SHORT'],
             formula=row['FORMULA'],
-            charge=0,  # Default charge (could change later)
+            charge=row['CHARGE'],  # Default charge (could change later)
             compartment='c',
         )
         model.add_metabolites([newMet])
@@ -58,7 +60,7 @@ if __name__ == "__main__":
     print(f"\n\nFinal model has {len(model.metabolites)} metabolites and {len(model.reactions)} reactions.")
     print(f"Old model has {len(old.metabolites)} metabolites and {len(old.reactions)} reactions.")
 
-    save_path = "./data/manual/xmls"
-    save_file = os.path.join(save_path, f"MNL_{model.id}_GAPFILL.xml")
-    if not os.path.exists(save_path): os.makedirs(save_path)
+    save_path = "./data/fill/xmls"
+    os.makedirs(save_path, exist_ok=True)
+    save_file = os.path.join(save_path, f"MNL_{model_name}_GAPFILL.xml")
     io.write_sbml_model(model, save_file)
