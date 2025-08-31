@@ -8,11 +8,11 @@ from json import loads
 
 # Toolbox
 from scripts.helpers.tools import split_coef, split_coef_reac
-from scripts.helpers.model import add_single_gene_reaction_pair
+from scripts.helpers.model import add_single_gene_reaction_pair, met_in_model
 
-def alter(argpath: str):
+def alter(argpath: str, chloroplast: bool):
 
-    ref, error = io.validate_sbml_model(argpath, validate=True)
+    ref, _ = io.validate_sbml_model(argpath, validate=True)
     if not ref:
         print('No model recognized. Exiting...')
         sys.exit(1)
@@ -37,16 +37,22 @@ def alter(argpath: str):
     # Add compounds to reference from cpds_df
     for cpd in cpds_df['ID'].values:
         # Get the fields of ID, Name, and Formula, and separate into variables
+        cpd_id = cpd
         cpd_name = cpds_df[cpds_df['ID'] == cpd]['NAME'].values[0]
         cpd_formula = cpds_df[cpds_df['ID'] == cpd]['FORMULA'].values[0]
+        cpd_comp = 'c'
+
+        if chloroplast:
+            cpd_comp = 'h'
+            cpd_id = cpd[:-2] + "_h"
 
         # Make new metabolite and save to model
         newMet = Metabolite(
-            id=cpd,
+            id=cpd_id,
             name=cpd_name,
             formula=cpd_formula,
             charge=0, # Default charge (could change later)
-            compartment='c',
+            compartment=cpd_comp,
         )
         ref.add_metabolites([newMet])
     
@@ -57,6 +63,33 @@ def alter(argpath: str):
         model = ref.copy()
         model.name = ref_name + "_" + item['name']
 
+        if chloroplast:
+            # Add aacoa_h <--> aacoa_c reaction for safety
+
+            # ACCOAh = model.metabolites.get_by_id('accoa_h')
+            # CoAh = model.metabolites.get_by_id('coa_h')
+
+            # Add Acetoacetyl-CoA for chloroplast
+            AACOAc = model.metabolites.get_by_id('aacoa_c')
+            AACOAh = Metabolite(
+                id='aacoa_h',
+                name='Acetoacetyl-CoA',
+                formula=AACOAc.formula,
+                charge=0,
+                compartment='h',
+            )
+            model.add_metabolites([AACOAh])
+            # Add the transport reaction
+            add_single_gene_reaction_pair(
+                model=model,
+                gene_id='AACOAth',
+                reaction_id='AACOAth',
+                reaction_name='Acetoacetyl-CoA:CoA antiporter, Chloroplast',
+                reaction_subsystem='Transport, chloroplast',
+                metabolites=[(-1, AACOAc.id), (1, AACOAh.id)],
+                reversible=True
+            )
+
         # Add reactions in blueprint iteration
         for _, row in rxns_df.iterrows():
 
@@ -66,6 +99,12 @@ def alter(argpath: str):
             # Get list of metabolites involved in the reaction
             reactants = list(map(split_coef_reac, row['REACTANTS'].split('+')))
             products = list(map(split_coef, row['PRODUCTS'].split('+')))
+            mets = [*reactants, *products]
+
+            if chloroplast and row['EC'] not in ["2.5.1.21", "1.14.14.17"]:
+                mets = list(map(lambda x: (x[0], x[1][:-2] + "_h"), mets))
+
+            # print(mets)
 
             # Add reaction to model copy
             add_single_gene_reaction_pair(
@@ -74,7 +113,7 @@ def alter(argpath: str):
                 reaction_id=row['ID'],
                 reaction_name=row['NAME'],
                 reaction_subsystem=row['PATHWAY'],
-                metabolites=[*reactants, *products]
+                metabolites=mets
             )
         
         # Print out results
@@ -82,7 +121,7 @@ def alter(argpath: str):
         print(f"Control model {ref_name} had {len(ref.reactions)} reactions.")
 
         # Save altered model to repo
-        save_path = f"./data/altered/xmls/{ref_name}"
+        save_path = f"./data/altered/xmls/{ref_name}" + ("/h" if chloroplast else "")
         if not os.path.exists(save_path): os.makedirs(save_path)
         io.write_sbml_model(model, os.path.join(save_path, f"{item['name']}.xml"))
 
@@ -98,6 +137,7 @@ if __name__ == "__main__":
         description='Load and validate your fba metabolic model from the .sbml format.'
     )
     parser.add_argument('sbmlpath')
+    parser.add_argument('-ch', '--chloroplast', action='store_true')
     args = parser.parse_args()
 
-    alter(args.sbmlpath)
+    alter(args.sbmlpath, args.chloroplast)
