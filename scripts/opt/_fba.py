@@ -8,10 +8,8 @@ from cobra.util.solver import linear_reaction_coefficients
 def flux_balance_analysis(
     model: Model,
     objectives: list[str],
-    loopless: bool=False,
     is_pfba: bool = False,
-    reactions: list[str] = None,
-    pfba_factor: float = 1.1,
+    minimize: bool = False,
     fraction_of_optimum: float = 1.0,
 
 ):
@@ -33,10 +31,12 @@ def flux_balance_analysis(
     """
     assert len(objectives) > 0, "No objectives provided."
     assert all([obj in [rxn.id for rxn in model.reactions] for obj in objectives]), "Some objectives not found in model."
-    
+
+    set_obj_coef = lambda x: 1.0 / len(objectives) if not minimize else -1.0 / len(objectives)
+
     solution = None
     if is_pfba:
-        objective_obj = {model.reactions.get_by_id(obj): 1.0 / len(objectives) for obj in objectives}
+        objective_obj = {model.reactions.get_by_id(obj): set_obj_coef(obj) for obj in objectives}
         solution = pfba(
             model,
             fraction_of_optimum=fraction_of_optimum,
@@ -48,8 +48,8 @@ def flux_balance_analysis(
             rxn.objective_coefficient = 0.0
 
         for obj in objectives:
-            model.reactions.get_by_id(obj).objective_coefficient = 1.0 / len(objectives)
-        
+            model.reactions.get_by_id(obj).objective_coefficient = set_obj_coef(obj)
+
         solution = model.optimize(raise_error=True)
     return solution
 
