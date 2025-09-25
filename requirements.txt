@@ -9,6 +9,7 @@ escher # Visualize
 networkx
 biopython
 python-Levenshtein
+geckopy
 # CLI
 argparse
 # Visualization
