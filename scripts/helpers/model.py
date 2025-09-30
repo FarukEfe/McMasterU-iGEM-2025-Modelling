@@ -6,6 +6,13 @@ import numpy as np
 from scipy.linalg import null_space
 import networkx as nx
 
+def gene_in_model(model: Model, gene: str):
+    try:
+        model.genes.get_by_id(gene)
+        return True
+    except:
+        return False
+
 def rxn_in_model(model: Model, rxn: str):
     try:
         model.reactions.get_by_id(rxn)
