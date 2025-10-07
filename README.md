@@ -1,3 +1,19 @@
+# Flux-Balance Analysis: *Chlamydomonas reinhardtii*
+
+Welcome to the flux-balance analysis repository of McMasterU @ iGEM 2025! Here, we included our work of model reconstruction, validation, benchmarks, and running flux balance analysis on various constructs of the genome-scale metabolic model iCre1355 (Imam et al. 2015) built for the organism *Chlamydomonas reinhardtii*. The analysis was done targeting 6 constructs: 
+- Squalene Epoxidase (SQE) Overexpression
+- Squalene Synthase (SQS) Overexpression
+- SQS+SQE
+- SQS + Mevalonate (MVA) pathway 
+- SQE + MVA
+- SQS + SQE + MVA
+
+Additionally, each construct was tested with 2 different strain information on both SQS and SQE that are:
+- SQS: *Saccharomyces cerevisiae* and *Thermosynechococcus vestitus*
+- SQE: *S. cerevisiae* and *Botryococcus braunii*
+
+That results in 24 unique models in total, not including the wildtype. Below, you can find information on how to set up the project on your end, and appendix to navigate in the codebase.
+
 ### Setup
 
 You can set up the project environment to run the scripts with the following process (run from the root directory):
