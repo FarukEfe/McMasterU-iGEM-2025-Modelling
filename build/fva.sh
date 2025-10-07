@@ -1,0 +1,1 @@
+python -m scripts.opt._fva ./data/raw/iCre1355/iCre1355_auto.xml -l -p -o Biomass_Chlamy_auto -r Biomass_Chlamy_auto,SS,CAS -d ./results/fva

@@ -1,1 +1,0 @@
-python -m scripts.opt._fba ./data/raw/iCre1355/iCre1355_auto.xml -p -o Biomass_Chlamy_auto,SS,CAS -d ./results/pfba
