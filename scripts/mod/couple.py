@@ -17,6 +17,20 @@ def couple_biomass(args):
     biomass_mixo = new.reactions.get_by_id('Biomass_Chlamy_mixo')
     biomass_hetero = new.reactions.get_by_id('Biomass_Chlamy_hetero')
 
+    # Define new pool sterol metabolite
+    sterol_pool = Metabolite(
+        id='sterol_pool_c',
+        name='Sterol Pool Metabolite',
+        charge=0,
+        compartment='c'
+    )
+    new.add_metabolites([sterol_pool])
+
+    # Add pool metabolite to biomass
+    biomass_auto.add_metabolites({sterol_pool: -0.0034})
+    biomass_mixo.add_metabolites({sterol_pool: -0.0034})
+    biomass_hetero.add_metabolites({sterol_pool: -0.0034})
+
     # Coefficients in mmol/gDW (from Voshall 2021, total 3.4 nmol/mg DW)
     # i.e. 0.0034 mmol/gDW total ergosterol. 
     # Assume that pool is demanded at 100% in all biomass modes.
@@ -27,9 +41,12 @@ def couple_biomass(args):
     }
 
     # Couple ergosterol
-    biomass_auto.add_metabolites(sterol_coefficients)
-    biomass_mixo.add_metabolites(sterol_coefficients)
-    biomass_hetero.add_metabolites(sterol_coefficients)
+    for met_id, coef in sterol_coefficients.items():
+        met = new.metabolites.get_by_id(met_id)
+        rxn = Reaction(f'couple_{met_id}')
+        rxn.add_metabolites({met: -1, sterol_pool: 1})
+        rxn.bounds = (0, abs(coef))
+        new.add_reactions([rxn])
 
     # Save new model
     os.makedirs(args.outdir, exist_ok=True)

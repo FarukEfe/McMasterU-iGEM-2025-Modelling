@@ -1,0 +1,11 @@
+{
+  "timestamp": "2026-06-14T13:21:24.097940",
+  "cobrapy_version": "0.31.1",
+  "solver": null,
+  "model_md5": "2e708df99877ebf9bc9337d1404deff7",
+  "sbmlpath": "./data/sink/xmls/iCre1355_auto.xml",
+  "n_reactions": 2410,
+  "n_metabolites": 1857,
+  "n_genes": 1972,
+  "wt_mu": 0.0
+}

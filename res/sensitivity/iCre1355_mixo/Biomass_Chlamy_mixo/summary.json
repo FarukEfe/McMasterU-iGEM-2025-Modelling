@@ -1,0 +1,11 @@
+{
+  "timestamp": "2026-06-15T23:05:46.573456",
+  "cobrapy_version": "0.31.1",
+  "solver": null,
+  "model_md5": "e248869ae14eb0c399003f7301be17a7",
+  "sbmlpath": "./data/sink/xmls/iCre1355_mixo.xml",
+  "n_reactions": 2410,
+  "n_metabolites": 1857,
+  "n_genes": 1972,
+  "wt_mu": 0.15122378522605093
+}

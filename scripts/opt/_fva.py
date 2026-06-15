@@ -14,7 +14,8 @@ def run_flux_variability_analysis(
         objective: str,
         loopless: bool = True,
         fraction_of_optimum: float = 0.9,
-        reactions: list[str] = None
+        reactions: list[str] = None,
+        processes: int = 1
     ):
     """
     Perform flux variability analysis on the given model.
@@ -36,7 +37,7 @@ def run_flux_variability_analysis(
         loopless=loopless,
         fraction_of_optimum=fraction_of_optimum,
         reaction_list=reactions,
-        processes=None
+        processes=processes
     )
     return solution
 
