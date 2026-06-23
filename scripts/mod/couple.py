@@ -35,17 +35,17 @@ def couple_biomass(args):
     # i.e. 0.0034 mmol/gDW total ergosterol. 
     # Assume that pool is demanded at 100% in all biomass modes.
     sterol_coefficients = {
+        # NOTE: Coefficiens are currently unused!
         'ergosterol_c':          -0.002142,   # 63%
         '7dhporiferasterol_c':   -0.000918,   # 27%
         'ergost7enol_c':         -0.000340,   # 10%
     }
 
     # Couple ergosterol
-    for met_id, coef in sterol_coefficients.items():
+    for met_id, _ in sterol_coefficients.items():
         met = new.metabolites.get_by_id(met_id)
         rxn = Reaction(f'couple_{met_id}')
         rxn.add_metabolites({met: -1, sterol_pool: 1})
-        rxn.bounds = (0, abs(coef))
         new.add_reactions([rxn])
 
     # Save new model
@@ -62,10 +62,11 @@ if __name__ == "__main__":
         prog='couple',
         description='Couple the biomass reaction to the ergosterol pathway.'
     )
-    parser.add_argument('--sbmlpath', default="./data/fill/xmls/iCre1355_auto.xml", help='Path to the input SBML model file.')
+    parser.add_argument('--sbmlpath', default="auto", choices=['auto','mixo','hetero'], help='Select the model type to couple.')
     parser.add_argument('--outdir', default="./data/coupled/xmls", help='Directory to save the coupled model SBML file.')
     args = parser.parse_args()
-
+    args.sbmlpath = f"./data/fill/xmls/iCre1355_{args.sbmlpath}.xml"
+    
     try:
         couple_biomass(args)
     except ValueError as error:

@@ -13,8 +13,8 @@ class GrowthExperimentItem(TypedDict):
     objective: str
     nh4_ub: float
     pi_ub: float
-    acet_ub: float
-    co2_ub: float
+    acet_ub: float | Literal['NA']
+    co2_ub: float | Literal['ND']
     light_ub: float | None
 
 def predict_growth(
@@ -25,15 +25,20 @@ def predict_growth(
     with model:
 
         if acet_ub == 'NA':
-            model.reactions.get_by_id('EX_ac_e').bounds = (0.0, 0.0)
+            model.reactions.get_by_id('EX_ac_e').lower_bound = 0.0
         else:
             model.reactions.get_by_id('EX_ac_e').lower_bound = acet_ub
 
         if co2_ub != 'ND':
-            model.reactions.get_by_id('CO2t').upper_bound = co2_ub
+            model.reactions.get_by_id('EX_co2_e').lower_bound = -co2_ub
 
         model.reactions.get_by_id('EX_nh4_e').lower_bound = nh4_ub
         model.reactions.get_by_id('EX_pi_e').lower_bound = pi_ub
+
+        assert model.reactions.get_by_id('EX_nh4_e').lower_bound == nh4_ub
+        assert model.reactions.get_by_id('EX_pi_e').lower_bound == pi_ub
+        assert model.reactions.get_by_id('EX_ac_e').lower_bound == (0.0 if acet_ub == 'NA' else acet_ub)
+        assert model.reactions.get_by_id('EX_co2_e').lower_bound == (-co2_ub if co2_ub != 'ND' else model.reactions.get_by_id('EX_co2_e').lower_bound)
 
         if light_ub is not None:
             model.reactions.get_by_id('PRISM_design_growth').upper_bound = light_ub
@@ -61,7 +66,7 @@ def growth_experiment(
             # Exclude model from item dict to ensure .csv conversion
             **{k: v for k, v in item.items() if k != 'model'},
         })
-    exit(1)
+
     # Conver to np.array
     mu_obs_l = np.array(mu_obs_l)
     mu_pred_l = np.array(mu_pred_l)

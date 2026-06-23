@@ -107,9 +107,10 @@ if __name__ == "__main__":
         prog='gapfill',
         description='Gapfill your model with manually collected reactions and compounds.'
     )
-    parser.add_argument('--sbmlpath', default="./data/raw/xmls/iCre1355_auto.xml", help='Path to the input SBML model file.')
+    parser.add_argument('--sbmlpath', default="auto", choices=['auto','mixo','hetero'], help='Select the model type to gapfill.')
     parser.add_argument('--outdir', default="./data/fill/xmls", help='Directory to save the gapfilled model SBML file.')
     parser.add_argument('--datadir', default="./data/fill/tables/stable", help='Directory containing the input CSV tables for genes, reactions, and metabolites.')
     args = parser.parse_args()
 
+    args.sbmlpath = f"./data/raw/xmls/iCre1355_{args.sbmlpath}.xml"
     gapfill_model(args)
