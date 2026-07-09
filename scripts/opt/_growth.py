@@ -1,6 +1,7 @@
 import argparse, json, os, sys
 import numpy as np
 import pandas as pd
+from scipy import stats
 from typing import TypedDict, Literal
 
 from cobra import io, Model
@@ -67,19 +68,41 @@ def growth_experiment(
             **{k: v for k, v in item.items() if k != 'model'},
         })
 
-    # Conver to np.array
+    # Convert to np.array
     mu_obs_l = np.array(mu_obs_l)
     mu_pred_l = np.array(mu_pred_l)
-    # Compute R2
-    mu_obs_mean = np.sum(mu_obs_l) / len(mu_obs_l)
-    R2 = 1 - np.sum((mu_obs_l - mu_pred_l)**2)/np.sum((mu_obs_l - mu_obs_mean)**2)
+
+    # Two distinct goodness-of-fit metrics (they answer different questions):
+    #   R2_pearson: squared Pearson correlation of predicted vs. observed. This is
+    #     the metric Imam et al. 2015 report (R2 = 0.83, p = 0.0002, Fig. 3C) -- it
+    #     measures how well predictions track observations up to a linear rescale.
+    #   R2_identity: coefficient of determination against the 1:1 line (y = x). This
+    #     is stricter: it penalizes any systematic slope/offset in the predictions.
+    reg = stats.linregress(mu_pred_l, mu_obs_l)
+    R2_pearson = reg.rvalue ** 2
+    pearson_p = reg.pvalue
+
+    mu_obs_mean = mu_obs_l.mean()
+    ss_tot = np.sum((mu_obs_l - mu_obs_mean) ** 2)
+    R2_identity = 1 - np.sum((mu_obs_l - mu_pred_l) ** 2) / ss_tot
+
+    print(
+        f"\nFit: R2_pearson = {R2_pearson:.4f} (p = {pearson_p:.2e}), "
+        f"R2_identity = {R2_identity:.4f}, "
+        f"slope = {reg.slope:.4f}, intercept = {reg.intercept:.4f}"
+    )
+
     # Build dataframe and add to it
     df = pd.DataFrame(items)
-    df["R2"] = R2
+    df["R2_pearson"] = R2_pearson
+    df["pearson_p"] = pearson_p
+    df["R2_identity"] = R2_identity
+    df["reg_slope"] = reg.slope
+    df["reg_intercept"] = reg.intercept
     # Save to .csv
     df.to_csv(os.path.join(outdir, "growth_experiment.csv"), index=False)
-    # Return results 
-    return df, R2
+    # Return results
+    return df, R2_pearson
         
 
 if __name__ == "__main__":
